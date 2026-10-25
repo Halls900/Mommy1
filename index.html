@@ -1,0 +1,4268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Надежда · с днём рождения — кинематограф</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;1,400&family=Marck+Script&family=Oswald:wght@300;500;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --red: #c8102e;
+    --gold: #c9a45c;
+    --cream: #f5efe4;
+    --soft: rgba(245, 239, 228, 0.55);
+  }
+
+  /* ===== ЛОКАЛЬНЫЙ ШРИФТ: Marggraff Kursiv Zarte ===== */
+  @font-face {
+    font-family: 'Marggraff Kursiv Zarte';
+    src: url('Marggraff Kursiv Zarte.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Cormorant', Georgia, serif;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+  body.locked { overflow: hidden; height: 100vh; }
+  ::selection { background: var(--red); color: var(--cream); }
+
+  /* ===== ШАПКА ===== */
+  .tabs {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 210;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 60px;
+    background: rgba(5, 5, 5, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201, 164, 92, 0.25);
+  }
+  .tab-btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--soft);
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 9px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .tab-btn:hover { color: var(--gold); border-color: rgba(201, 164, 92, 0.4); }
+  .tab-btn.active {
+    color: #1a0f00;
+    background: linear-gradient(135deg, var(--gold), #e8d9a8);
+    border-color: var(--gold);
+    font-weight: 700;
+  }
+  .sound-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    padding: 8px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .sound-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Горизонтальный прогресс */
+  .hr-progress {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 140px;
+    height: 18px;
+    background: rgba(201, 164, 92, 0.16);
+    border-radius: 100px;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hr-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff4d5d, #ffd27a, #c9a45c);
+    border-radius: 100px;
+    box-shadow: 0 0 8px rgba(255, 77, 93, 0.8), 0 0 14px rgba(255, 210, 122, 0.5);
+  }
+  .hr-percent {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .hr-percent span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    padding: 3px 7px;
+    border-radius: 6px;
+    background: rgba(6, 6, 6, 0.88);
+    border: 1px solid rgba(201, 164, 92, 0.45);
+    color: #ff4d5d;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  /* Зерно / виньетка */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainMove 0.8s steps(3) infinite;
+  }
+  @keyframes grainMove {
+    0% { transform: translate(0,0); }
+    33% { transform: translate(-5px, 3px); }
+    66% { transform: translate(4px, -5px); }
+    100% { transform: translate(0,0); }
+  }
+  .vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 89;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 48%, rgba(0,0,0,0.8) 100%);
+  }
+
+  /* ===== ПРОЛОГ ===== */
+  #prologue {
+    position: fixed;
+    inset: 0;
+    z-index: 350;
+    background: radial-gradient(ellipse at 50% 18%, #1c1208 0%, #0a0604 45%, #000 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    text-align: center;
+    transition: opacity 0.7s ease;
+  }
+  #prologue.gone { opacity: 0; pointer-events: none; }
+  .pl-head {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    animation: flick 0.15s steps(2) infinite;
+  }
+  .pl-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 7vw, 4.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--red);
+    text-shadow: 0 0 50px rgba(200, 16, 46, 0.55);
+    line-height: 1;
+  }
+  .pl-sub {
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1.1rem;
+    margin-top: 12px;
+  }
+  .pl-stage {
+    position: relative;
+    width: min(780px, 96vw);
+    min-height: 620px;
+    margin-top: 10px;
+  }
+  .top-scene {
+    position: relative;
+    width: 100%;
+    height: 620px;
+  }
+
+  /* --- Бутылка: вид сверху --- */
+  .cork-top {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 320px;
+    z-index: 2;
+    cursor: pointer;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .cork-top.fadeout {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(0.92);
+    pointer-events: none;
+  }
+  .glass-rim {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 30%, #2e6b40 0%, #12361f 45%, #081d10 75%, #050f08 100%);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.75), 0 24px 50px rgba(0,0,0,0.6);
+  }
+  .glass-rim::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.16) 0%, transparent 28%),
+      radial-gradient(circle at 68% 72%, rgba(255,255,255,0.05), transparent 40%);
+  }
+  .glass-rim::after {
+    content: '';
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 45%, #060c07 0%, #0a1810 55%, #040a06 100%);
+    box-shadow: inset 0 14px 26px rgba(0,0,0,0.85);
+  }
+  .cork-disk {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    width: 230px;
+    height: 170px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 42% 32%, rgba(255,255,255,0.95), rgba(242,242,242,0.88) 22%, #dcdcdc 42%, #bdbdbd 72%, #989898 100%);
+    box-shadow:
+      inset 0 -14px 26px rgba(0,0,0,0.22),
+      inset 0 12px 20px rgba(255,255,255,0.5),
+      0 12px 24px rgba(0,0,0,0.55);
+  }
+  .cork-disk::after {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle at 50% 50%, rgba(150,150,150,0.35) 0 2px, transparent 2px 8px);
+  }
+  .wax-drop1,
+  .wax-drop2 {
+    position: absolute;
+    background: linear-gradient(180deg, #b8122e, #8a0a20);
+    border-radius: 50% 50% 60% 60%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    z-index: 1;
+  }
+  .wax-drop1 { width: 34px; height: 26px; left: 37%; top: 62%; transform: rotate(-14deg); }
+  .wax-drop2 { width: 30px; height: 22px; right: 36%; top: 60%; transform: rotate(10deg); }
+  .wax-seal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 36% 32%, #e84a60 0%, #b8122e 48%, #8a0a20 78%, #630712 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow:
+      inset 0 3px 8px rgba(255,255,255,0.28),
+      inset 0 -6px 12px rgba(0,0,0,0.4),
+      0 8px 18px rgba(0,0,0,0.6);
+    z-index: 3;
+    cursor: pointer;
+    transition: transform 0.55s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.35s ease, filter 0.25s ease;
+  }
+  .wax-seal:hover { filter: brightness(1.12); }
+  .wax-seal::before {
+    content: '★';
+    position: absolute;
+    top: 15px;
+    font-size: 15px;
+    color: rgba(247,223,200,0.85);
+  }
+  .wax-seal::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1.5px dashed rgba(247,223,200,0.5);
+    border-radius: 50%;
+  }
+  .wax-text {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: #f7dfc8;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.55);
+    margin-top: 16px;
+  }
+  .cork-top.popped .wax-seal {
+    transform: translate(-50%, -50%) translateY(-160px) scale(1.5) rotate(22deg);
+    opacity: 0;
+  }
+
+  /* --- Конверт --- */
+  .env-stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    width: min(720px, 94vw);
+    aspect-ratio: 16 / 11;
+    background: linear-gradient(165deg, #faf4e6, #e9ddc3);
+    border-radius: 14px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    z-index: 3;
+    perspective: 900px;
+    pointer-events: none;
+  }
+  #proEnv.letter-out { overflow: visible; }
+  .env-stage.fadein {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+  .env-back { position: absolute; inset: 0; background: linear-gradient(165deg, #efe4cd, #dccfb2); transition: opacity 0.5s ease; }
+  .env-front { position: absolute; inset: 0; z-index: 2; transition: opacity 0.5s ease; }
+  .env-fold.l, .env-fold.r {
+    position: absolute;
+    top: 0;
+    width: 56%;
+    height: 2.5px;
+    background: rgba(120,90,40,0.18);
+    transform-origin: top left;
+  }
+  .env-fold.l { left: 0; transform: rotate(26deg); }
+  .env-fold.r { right: 0; transform: rotate(-26deg); transform-origin: top right; }
+  .env-flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 52%;
+    z-index: 3;
+    background: linear-gradient(180deg, #faf4e6, #ecd9b8);
+    transform-origin: top center;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transition: transform 0.75s cubic-bezier(0.6, 0, 0.3, 1), opacity 0.5s ease;
+  }
+  .env-seal {
+    position: absolute;
+    left: 50%;
+    top: calc(52% - 40px);
+    width: 80px;
+    height: 80px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at 34% 30%, #e0455c, #a81028 55%, #6d0718);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f7dfc8;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.35), inset 0 -4px 8px rgba(0,0,0,0.4), 0 10px 22px rgba(0,0,0,0.45);
+    z-index: 4;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .env-seal::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 2px dashed rgba(247,223,200,0.55);
+    border-radius: 50%;
+  }
+  .env-text {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 8%;
+    text-align: center;
+    z-index: 4;
+    transition: opacity 0.5s ease;
+  }
+  .env-date {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: #8a7a5c;
+    letter-spacing: 0.08em;
+  }
+  .env-postmark {
+    position: absolute;
+    left: 22px;
+    bottom: 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(138,122,92,0.8);
+    text-align: center;
+    border: 2px dashed rgba(138,122,92,0.6);
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(8deg);
+    line-height: 1.5;
+    transition: opacity 0.5s ease;
+  }
+
+  /* --- Лист: две стороны. Формат A2 (1 : √2) --- */
+  #proEnv .env-letter {
+    position: absolute;
+    left: -0.5%; right: -0.5%;
+    top: -1.9%; bottom: -1.9%;
+    z-index: 5;
+    perspective: 1600px;
+    opacity: 0;
+    transform: translateY(130%) scale(0.8);
+    transition: opacity 0.6s ease 0.5s, transform 0.7s cubic-bezier(0.2, 0.8, 0.25, 1.2) 0.5s;
+    pointer-events: none;
+  }
+  #proEnv .env-letter .letter-flip {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  #proEnv .env-letter.flipped .letter-flip {
+    transform: rotate(90deg) rotateY(180deg);
+  }
+  #proEnv .env-letter .letter-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px 40px;
+  }
+  #proEnv .env-letter .letter-front {
+    background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 55%, #050505 100%);
+    border: 2px solid rgba(212, 167, 60, 0.85);
+    box-shadow: inset 0 0 40px rgba(212, 167, 60, 0.12), 0 24px 50px rgba(0,0,0,0.45);
+  }
+  #proEnv .env-letter .letter-back {
+    background: linear-gradient(165deg, #1a1a1a 0%, #0a0a0a 55%, #050505 100%);
+    border: 2px solid rgba(212, 167, 60, 0.85);
+    box-shadow: inset 0 0 40px rgba(212, 167, 60, 0.12), 0 24px 50px rgba(0,0,0,0.45);
+    transform: rotateY(180deg);
+    overflow: hidden;
+  }
+  #proEnv .env-letter .letter-back .bk-inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 7px;
+    padding: 16px 22px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
+  #proEnv .env-letter .crown {
+    width: 120px;
+    margin: 0 auto 10px;
+    display: block;
+    filter: drop-shadow(0 3px 8px rgba(212, 167, 60, 0.4));
+  }
+  #proEnv .env-letter .t-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #ffd97a;
+    text-shadow: 0 0 18px rgba(255, 217, 122, 0.4);
+  }
+  #proEnv .env-letter .t-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #e6c66b;
+    margin-top: 6px;
+  }
+  #proEnv .env-letter .t-divider {
+    width: 74%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #e0b95f, transparent);
+    margin: 18px auto;
+  }
+  #proEnv .env-letter .t-line {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    font-size: 1.45rem;
+    color: #eccc68;
+    margin-bottom: 0.7em;
+    line-height: 1.6;
+  }
+  #proEnv .env-letter .t-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #e6c66b;
+    border-top: 1.5px dashed rgba(224, 185, 95, 0.4);
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+  #proEnv .env-letter .t-row.single { justify-content: center; }
+  #proEnv .env-letter .l-sig {
+    font-family: 'Marck Script', cursive;
+    color: #ffd97a;
+    font-size: 2rem;
+    margin-top: 12px;
+  }
+  #proEnv .env-letter .letter-front .flip-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 0; right: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 217, 122, 0.75);
+    pointer-events: none;
+  }
+  #proEnv .env-letter .bk-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.45rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #ffd97a;
+    text-shadow: 0 0 18px rgba(255, 217, 122, 0.4);
+  }
+  #proEnv .env-letter .bk-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e6c66b;
+  }
+  #proEnv .env-letter .bk-divider {
+    width: 70%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #e0b95f, transparent);
+    margin: 6px auto;
+  }
+  #proEnv .env-letter .bk-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #eccc68;
+    max-width: 100%;
+  }
+  #proEnv .env-letter .bk-wish {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f0cf7a;
+  }
+  #proEnv .env-letter .bk-sig {
+    font-family: 'Marck Script', cursive;
+    color: #ffd97a;
+    font-size: 1.7rem;
+  }
+  .env-collapse {
+    position: absolute;
+    bottom: 10px;
+    right: 14px;
+    z-index: 7;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.45);
+    color: #f5efe4;
+    border: 1px solid rgba(201,164,92,0.4);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, border-color 0.25s ease;
+  }
+  .env-collapse:hover { border-color: var(--gold); }
+  #proEnv.open .env-flap { transform: rotateX(-178deg); }
+  #proEnv.open .env-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
+  #proEnv.open .env-letter { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  #proEnv.letter-out .env-back,
+  #proEnv.letter-out .env-front,
+  #proEnv.letter-out .env-flap,
+  #proEnv.letter-out .env-seal,
+  #proEnv.letter-out .env-text,
+  #proEnv.letter-out .env-postmark {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #proEnv.letter-out .env-letter {
+    transform: translateY(0) scale(1.22);
+    pointer-events: auto;
+  }
+  #proEnv.letter-out .env-collapse {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #proEnv.letter-out .env-letter.flipped .env-collapse { pointer-events: none; opacity: 0; }
+  .pl-hint {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: -6px;
+    text-align: center;
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1rem;
+    z-index: 4;
+  }
+  .pl-start {
+    margin-top: 26px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), #e8d9a8);
+    color: #1a0f00;
+    border: none;
+    font-weight: 700;
+    box-shadow: 0 0 40px rgba(201, 164, 92, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .pl-start:hover { transform: scale(1.05); box-shadow: 0 0 52px rgba(201, 164, 92, 0.45); }
+  #loader {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+  }
+  #loader.gone { opacity: 0; pointer-events: none; }
+  .countdown {
+    position: relative;
+    width: min(300px, 70vw);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .countdown svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .countdown .ring-bg { stroke: rgba(245, 239, 228, 0.12); }
+  .countdown .ring { stroke: var(--cream); stroke-dasharray: 283; stroke-dashoffset: 283; }
+  .countdown .num {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(5rem, 20vw, 9rem);
+    color: var(--cream);
+    line-height: 1;
+  }
+  .countdown .cross-h, .countdown .cross-v { position: absolute; background: rgba(245, 239, 228, 0.25); }
+  .countdown .cross-h { left: -10vw; right: -10vw; height: 2px; }
+  .countdown .cross-v { top: -10vw; bottom: -10vw; width: 2px; }
+  .curtain {
+    position: fixed;
+    top: 0; bottom: 0;
+    width: 52vw;
+    z-index: 150;
+    background: repeating-linear-gradient(90deg, #5c0714 0px, #8f0d22 28px, #b31230 52px, #8f0d22 76px, #5c0714 104px);
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.7);
+    transition: transform 1.8s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+  .curtain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.55), transparent 20%, transparent 80%, rgba(0,0,0,0.65));
+  }
+  .curtain.left { left: 0; border-right: 3px solid rgba(0,0,0,0.5); }
+  .curtain.right { right: 0; border-left: 3px solid rgba(0,0,0,0.5); }
+  .curtain.open.left { transform: translateX(-100%); }
+  .curtain.open.right { transform: translateX(100%); }
+  .curtain-valance {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 74px;
+    z-index: 151;
+    background:
+      radial-gradient(ellipse 60px 74px at 30px 0, #b31230 98%, transparent),
+      radial-gradient(ellipse 60px 74px at 90px 0, #b31230 98%, transparent);
+    background-size: 120px 74px;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+    transition: transform 1.4s ease 0.4s;
+  }
+  .curtain-valance.open { transform: translateY(-100%); }
+  .beam {
+    position: fixed;
+    top: -8vh; left: 50%;
+    width: 140vw; height: 130vh;
+    transform: translateX(-50%);
+    background: conic-gradient(from 180deg at 50% 0%, transparent 42%, rgba(255,245,220,0.045) 48%, rgba(255,245,220,0.07) 50%, rgba(255,245,220,0.045) 52%, transparent 58%);
+    pointer-events: none;
+    z-index: 4;
+    animation: flick 0.12s steps(2) infinite;
+  }
+  @keyframes flick {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.82; }
+  }
+  .wrap { position: relative; z-index: 5; }
+  .tab-panel {
+    display: none;
+    position: relative;
+  }
+  .tab-panel.active {
+    display: block;
+    animation: panelIn 0.65s cubic-bezier(0.22, 0.68, 0.32, 1) both;
+  }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: none; }
+  }
+  #panel-quiz, #panel-games {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(200, 16, 46, 0.14), transparent 55%),
+      radial-gradient(ellipse at 50% 110%, rgba(201, 164, 92, 0.08), transparent 50%);
+  }
+  .panel-hero {
+    text-align: center;
+    padding: 74px 24px 34px;
+  }
+  .ph-badge {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    padding: 10px 24px;
+    margin-bottom: 22px;
+  }
+  .panel-hero h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 4.8vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    text-shadow: 0 0 34px rgba(200, 16, 46, 0.4);
+    margin-bottom: 14px;
+  }
+  .panel-hero .ph-sub {
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1.15rem;
+  }
+  .marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+    background: #050505;
+    border-top: 1px solid rgba(245, 239, 228, 0.1);
+    border-bottom: 1px solid rgba(245, 239, 228, 0.1);
+    position: relative;
+    box-shadow: 0 0 30px rgba(200, 16, 46, 0.12);
+  }
+  .marquee div {
+    display: inline-flex;
+    gap: 42px;
+    animation: mx 26s linear infinite;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+    color: rgba(245, 239, 228, 0.85);
+    text-shadow: 0 0 10px rgba(245, 239, 228, 0.22), 0 0 20px rgba(201, 164, 92, 0.18);
+  }
+  .marquee b {
+    color: var(--red);
+    text-shadow: 0 0 10px rgba(200, 16, 46, 0.65), 0 0 20px rgba(200, 16, 46, 0.35);
+  }
+  @keyframes mx {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .poster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 64px 22px 0;
+    position: relative;
+  }
+  .poster .studio {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 26px 0 36px;
+    animation: flick 0.15s steps(2) infinite;
+  }
+  .poster-frame {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 5vw, 64px);
+  }
+  .photo-slot {
+    width: clamp(190px, 30vw, 280px);
+    aspect-ratio: 3 / 4;
+    border: 3px solid var(--gold);
+    outline: 1px solid rgba(201, 164, 92, 0.35);
+    outline-offset: 8px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(200, 16, 46, 0.25), transparent 60%), #141210;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(201, 164, 92, 0.08);
+    animation: in 1.1s ease 0.3s both;
+  }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; filter: sepia(0.18) contrast(1.05); }
+  .photo-fallback {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(4rem, 10vw, 6rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--gold);
+  }
+  .photo-caption {
+    position: absolute;
+    bottom: -40px; left: 0; right: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+  .title-block { animation: in 1.1s ease 0.45s both; }
+  .title-block .pre {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 18px;
+  }
+  .title-block h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 11vw, 8.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--red);
+    text-shadow: 0 0 60px rgba(200, 16, 46, 0.55);
+    margin-bottom: 22px;
+  }
+  .title-block .role-line {
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.8vw, 1.55rem);
+    color: var(--soft);
+    margin-bottom: 34px;
+  }
+  @keyframes in {
+    from { opacity: 0; transform: translateY(34px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .ticket-sec {
+    padding: 40px 22px 90px;
+    display: flex;
+    justify-content: center;
+  }
+  .ticket {
+    display: flex;
+    max-width: min(900px, 96vw);
+    width: 100%;
+    background: linear-gradient(165deg, #f7f1e3, #e8dcc4);
+    color: #241f18;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 34px 70px rgba(0,0,0,0.65);
+    transform: rotate(-1.2deg);
+    transition: transform 0.5s ease;
+  }
+  .ticket:hover { transform: rotate(0deg) scale(1.02); }
+  .ticket-main { flex: 1; padding: 42px 48px; }
+  .ticket-main .presents {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #8a7a5c;
+    margin-bottom: 12px;
+  }
+  .ticket-main h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    text-transform: uppercase;
+    color: var(--red);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .ticket-rows {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 30px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ticket-rows b { display: block; color: #8a7a5c; font-weight: 300; font-size: 0.72rem; }
+  .ticket-stub {
+    width: 150px;
+    border-left: 2px dashed #b3a482;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px 12px;
+    background: rgba(200, 16, 46, 0.06);
+  }
+  .ticket-stub .big {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: var(--red);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .barcode {
+    width: 80px;
+    height: 38px;
+    background: repeating-linear-gradient(90deg, #241f18 0 2px, transparent 2px 4px, #241f18 4px 7px, transparent 7px 9px);
+  }
+  section.block {
+    padding: 100px clamp(20px, 6vw, 80px);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .chapter {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .chapter .num {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201, 164, 92, 0.6);
+    line-height: 1;
+  }
+  .chapter h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .chapter h2 small {
+    display: block;
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 1.05rem;
+    color: var(--soft);
+    margin-top: 6px;
+  }
+  .film-badge {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    padding: 10px 22px;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1.1rem;
+    margin-bottom: 46px;
+  }
+  .rolls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  .roll {
+    background: linear-gradient(165deg, #161311 0%, #0d0c0b 100%);
+    border: 1px solid rgba(201, 164, 92, 0.25);
+    border-radius: 6px;
+    padding: 8px 30px;
+    position: relative;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .roll:hover {
+    border-color: rgba(200, 16, 46, 0.55);
+    box-shadow: 0 0 30px rgba(200, 16, 46, 0.08);
+  }
+  .roll::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 30px; right: 30px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .roll-header {
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .roll .role {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    white-space: nowrap;
+  }
+  .roll h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    text-align: center;
+    line-height: 1.1;
+  }
+  .roll-toggle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    color: var(--gold);
+    transition: all 0.25s ease;
+  }
+  .roll-toggle:hover {
+    background: rgba(201, 164, 92, 0.12);
+    border-color: var(--gold);
+  }
+  .roll.open .roll-toggle { color: var(--red); border-color: rgba(200, 16, 46, 0.5); }
+  .roll-body {
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+    max-height: 0;
+    opacity: 0;
+  }
+  .roll.open .roll-body {
+    max-height: 800px;
+    opacity: 1;
+  }
+  .roll-body p {
+    margin-top: 16px;
+    font-size: 1.15rem;
+    color: rgba(245, 239, 228, 0.75);
+    max-width: 880px;
+  }
+  .roll .sig {
+    margin-top: 18px;
+    font-family: 'Marck Script', cursive;
+    font-size: 1.3rem;
+    color: var(--gold);
+  }
+  .facts-sec {
+    padding: 100px clamp(20px, 6vw, 80px);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .fact-card {
+    position: relative;
+    background: linear-gradient(165deg, #161311, #0d0c0b);
+    border: 1px solid rgba(201, 164, 92, 0.18);
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .fact-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200, 16, 46, 0.6);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.55), 0 0 30px rgba(200, 16, 46, 0.1);
+  }
+  .fact-card.correct { border-color: #3fae5a; box-shadow: 0 0 24px rgba(63,174,90,0.25); }
+  .fact-card.wrong { border-color: rgba(200,16,46,0.65); opacity: 0.6; }
+  .facts-score {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--soft);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .facts-score b { color: var(--gold); }
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    width: min(560px, 92vw);
+    background: linear-gradient(170deg, #171310, #0c0b0a);
+    border: 1px solid rgba(201, 164, 92, 0.4);
+    padding: 38px 34px 30px;
+    position: relative;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s ease;
+    box-shadow: 0 0 60px rgba(200, 16, 46, 0.12), 0 40px 80px rgba(0,0,0,0.7);
+  }
+  .modal-backdrop.open .modal { transform: none; }
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 38px; right: 38px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .modal .m-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  .modal .m-text {
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: rgba(245, 239, 228, 0.9);
+    margin-bottom: 26px;
+    min-height: 100px;
+  }
+  .modal .m-q,
+  .modal .m-btns {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .modal.ready .m-q,
+  .modal.ready .m-btns {
+    opacity: 1;
+    transform: none;
+  }
+  .modal .m-q {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(201, 164, 92, 0.35);
+    margin-bottom: 16px;
+  }
+  .modal .m-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .m-btn {
+    flex: 1;
+    min-width: 140px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid rgba(201, 164, 92, 0.45);
+    color: var(--cream);
+    background: rgba(0,0,0,0.4);
+    transition: all 0.25s ease;
+  }
+  .m-btn.truth:hover { border-color: #3fae5a; color: #7ee2a0; box-shadow: 0 0 20px rgba(63,174,90,0.25); }
+  .m-btn.lie:hover { border-color: var(--red); color: #ff8a9a; box-shadow: 0 0 20px rgba(200,16,46,0.25); }
+  .m-result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-height: 1.4em;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .m-result.ok { color: #7ee2a0; }
+  .m-result.no { color: #ff8a9a; }
+  .m-why {
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1rem;
+    min-height: 1.4em;
+  }
+  .m-next {
+    margin-top: 22px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 13px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), #e8d9a8);
+    color: #1a0f00;
+    border: none;
+    font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .m-next:hover { transform: scale(1.04); box-shadow: 0 0 30px rgba(201, 164, 92, 0.4); }
+  .quiz-shell {
+    max-width: 860px;
+    margin: 0 auto 120px;
+    background: linear-gradient(170deg, #171310, #0b0a09);
+    border: 1px solid rgba(201, 164, 92, 0.35);
+    border-radius: 14px;
+    padding: 56px clamp(24px, 5vw, 60px);
+    box-shadow: 0 40px 90px rgba(0,0,0,0.65), inset 0 0 90px rgba(201, 164, 92, 0.04);
+    position: relative;
+  }
+  .quiz-shell::before,
+  .quiz-shell::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgba(201, 164, 92, 0.55);
+  }
+  .quiz-shell::before {
+    top: -1px; left: -1px;
+    border-right: none; border-bottom: none;
+    border-radius: 14px 0 0 0;
+  }
+  .quiz-shell::after {
+    bottom: -1px; right: -1px;
+    border-left: none; border-top: none;
+    border-radius: 0 0 14px 0;
+  }
+  .quiz-holder {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .quiz-progress {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 20px;
+  }
+  .quiz-progress b { color: var(--gold); }
+  .quiz-q {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 30px;
+  }
+  .quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .quiz-opt {
+    text-align: left;
+    font-family: 'Cormorant', serif;
+    font-size: 1.2rem;
+    padding: 16px 22px;
+    color: var(--cream);
+    background: linear-gradient(165deg, #161311, #0d0c0b);
+    border: 1px solid rgba(201, 164, 92, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .quiz-opt:hover { border-color: var(--gold); transform: translateX(6px); }
+  .quiz-opt.sel-correct { border-color: #3fae5a; background: rgba(63,174,90,0.18); color: #7ee2a0; }
+  .quiz-opt.sel-wrong { border-color: var(--red); background: rgba(200,16,46,0.18); color: #ff8a9a; }
+  .quiz-opt.reveal-correct { border-color: #3fae5a; }
+  .quiz-next {
+    margin-top: 26px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), #e8d9a8);
+    color: #1a0f00;
+    border: none;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+  .quiz-next:hover { transform: scale(1.04); }
+  .quiz-result {
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px solid rgba(201, 164, 92, 0.3);
+    background: linear-gradient(180deg, #121010, #0a0909);
+  }
+  #quizStart {
+    border: none;
+    background: transparent;
+    padding: 30px 10px;
+  }
+  #quizStart .big {
+    font-size: clamp(4rem, 10vw, 6rem);
+  }
+  #quizStart .game-btn {
+    margin: 26px auto 0;
+    font-size: 0.9rem;
+    padding: 16px 34px;
+  }
+  .quiz-result .big {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--red);
+    text-shadow: 0 0 40px rgba(200, 16, 46, 0.5);
+  }
+  .quiz-result .grade {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--gold);
+    margin-top: 10px;
+  }
+  .heart-sec {
+    padding: 110px 22px;
+    text-align: center;
+  }
+  .heart-sec .section-sub { margin-bottom: 6px; }
+  .heart-wrap {
+    position: relative;
+    width: min(560px, 92vw);
+    height: 500px;
+    margin: 0 auto 10px;
+    perspective: 700px;
+  }
+  .heart-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(255, 180, 90, 0.14), rgba(255, 90, 0, 0.05) 45%, transparent 65%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .candle-dot {
+    position: absolute;
+    width: 34px;
+    height: 54px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    transition: left 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                top 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    will-change: left, top;
+  }
+  .candle-dot .fl {
+    position: absolute;
+    bottom: 34px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13px;
+    height: 22px;
+    border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+    background: linear-gradient(180deg, #fff6c8, #ffb84d 45%, #ff6a00);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    box-shadow: 0 0 22px rgba(255,170,60,0.9), 0 0 40px rgba(255,120,30,0.5);
+    z-index: 2;
+  }
+  .candle-dot .body {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 28px;
+    border-radius: 3px 3px 2px 2px;
+    box-shadow:
+      inset 2px 2px 3px rgba(255,255,255,0.35),
+      inset -3px -4px 5px rgba(0,0,0,0.35),
+      0 5px 8px rgba(0,0,0,0.5),
+      0 0 10px var(--neon);
+    transition: filter 0.4s ease;
+  }
+  .candle-dot .wick {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 13px;
+    background: #26221c;
+    border-radius: 1px;
+    z-index: 1;
+  }
+  .candle-dot.lit .fl { opacity: 1; }
+  .candle-dot.lit .wick { background: #4a3a28; }
+  .candle-dot.lit .body { filter: brightness(1.15); }
+  .heart-counter {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-top: 40px;
+  }
+  .heart-counter b { color: var(--gold); font-size: 1.2rem; }
+  .heart-msg {
+    margin-top: 18px;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--gold);
+    min-height: 1.6em;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .heart-sec.done .heart-msg { opacity: 1; }
+  .letter-cine {
+    max-width: 880px;
+    margin: 0 auto;
+    border: 1px solid rgba(245, 239, 228, 0.14);
+    padding: clamp(40px, 7vw, 90px);
+    text-align: center;
+    background: radial-gradient(ellipse at top, rgba(200, 16, 46, 0.08), transparent 60%), #0c0b0a;
+  }
+  .letter-cine .from {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--red);
+    margin-bottom: 30px;
+  }
+  .letter-cine p {
+    font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+    font-style: italic;
+    color: rgba(245, 239, 228, 0.8);
+    margin-bottom: 1.3em;
+  }
+  #permanentCredits {
+    padding: 110px 24px 150px;
+    text-align: center;
+    background:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.45), transparent),
+      radial-gradient(1.2px 1.2px at 60% 75%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(ellipse at center bottom, rgba(200, 16, 46, 0.12), transparent 55%);
+    border-top: 1px solid rgba(201, 164, 92, 0.25);
+  }
+  #permanentCredits .fc-head {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  #permanentCredits .fc-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    text-shadow: 0 0 40px rgba(200, 16, 46, 0.45);
+    margin-bottom: 60px;
+  }
+  #permanentCredits .fc-list {
+    max-width: 680px;
+    margin: 0 auto 30px;
+  }
+  #permanentCredits .fc-item {
+    padding: 26px 10px;
+    border-bottom: 1px solid rgba(201, 164, 92, 0.18);
+  }
+  #permanentCredits .fc-role {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  #permanentCredits .fc-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .the-end-static {
+    margin-top: 80px;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(3rem, 10vw, 5.4rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .the-end-static .te-word { display: inline-block; }
+  .the-end-static .te-word + .te-word { margin-left: 0.45em; }
+  .the-end-static .te-sub {
+    display: block;
+    margin-top: 24px;
+    font-size: 0.74rem;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    color: rgba(245, 239, 228, 0.9);
+    text-shadow: 0 0 14px rgba(255, 210, 130, 0.6);
+  }
+  .the-end-static .te-letter {
+    display: inline-block;
+    padding: 0 0.04em;
+    line-height: 1;
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: letterSheen 4s ease-in-out infinite;
+  }
+  .te-red .te-letter {
+    background-image:
+      linear-gradient(115deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 26%),
+      linear-gradient(180deg, #ffe3e7 0%, #ff9aa8 18%, #ff3550 46%, #c8102e 72%, #ff9aa8 100%);
+    text-shadow:
+      0 0 18px rgba(255, 77, 93, 0.85),
+      0 0 44px rgba(255, 110, 120, 0.45),
+      0 1px 0 rgba(140, 10, 30, 0.55),
+      0 2px 1px rgba(120, 8, 26, 0.3);
+  }
+  .te-gold .te-letter {
+    background-image:
+      linear-gradient(115deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 26%),
+      linear-gradient(180deg, #fffdf0 0%, #ffe9a8 18%, #ffd97a 46%, #d4a73c 72%, #ffe9a8 100%);
+    text-shadow:
+      0 0 18px rgba(255, 214, 122, 0.9),
+      0 0 44px rgba(255, 190, 80, 0.45),
+      0 1px 0 rgba(150, 110, 15, 0.5),
+      0 2px 1px rgba(120, 90, 12, 0.3);
+  }
+  @keyframes letterSheen {
+    0%, 55% { background-position: 200% 0%, 0% 0%; }
+    75% { background-position: 0% 0%, 0% 0%; }
+    100% { background-position: 200% 0%, 0% 0%; }
+  }
+  /* ===== ПРОИГРЫВАТЕЛИ ===== */
+  .mp-wrap { margin-top: 34px; text-align: left; }
+  .mp-wrap + .mp-wrap {
+    margin-top: 26px;
+    border-top: 1px dashed rgba(201, 164, 92, 0.25);
+    padding-top: 26px;
+  }
+  .mp {
+    background: #0a0a0a;
+    border: 1px solid rgba(201, 164, 92, 0.28);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .mp-disc {
+    position: relative;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background:
+      radial-gradient(circle at center, #e8d9a8 0 3px, #151515 3px 5px, transparent 5px),
+      repeating-radial-gradient(circle at center, #151515 0 2px, #0a0a0a 2px 4px);
+    border: 2px solid rgba(201, 164, 92, 0.5);
+    box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.75);
+  }
+  .mp-disc.spinning { animation: spinVinyl 3s linear infinite; }
+  .mp-body { flex: 1; min-width: 220px; }
+  .mp-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .mp-artist {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+  .mp-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .mp-play {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 164, 92, 0.55);
+    background: rgba(201, 164, 92, 0.08);
+    color: var(--gold);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+  .mp-play:hover { background: rgba(201, 164, 92, 0.2); box-shadow: 0 0 18px rgba(201, 164, 92, 0.35); }
+  .mp-play.paused { background: rgba(200, 16, 46, 0.18); border-color: rgba(200, 16, 46, 0.6); color: #ff8a9a; }
+  .mp-seek { flex: 1; min-width: 140px; }
+  .mp-time {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--soft);
+    white-space: nowrap;
+  }
+  .mp-vol { width: 90px; }
+  .mp-hint {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-top: 10px;
+  }
+  .mp-hint a { color: var(--gold); text-decoration: underline; }
+  input[type="range"].mp-range {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--gold) var(--fill, 0%), rgba(201, 164, 92, 0.2) var(--fill, 0%));
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"].mp-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #f0cf7a;
+    border: 1px solid #8a6420;
+    box-shadow: 0 0 10px rgba(255, 217, 122, 0.6);
+  }
+  input[type="range"].mp-range::-moz-range-thumb {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #f0cf7a;
+    border: 1px solid #8a6420;
+  }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 30px;
+    max-width: 1060px;
+    margin: 0 auto 120px;
+  }
+  .game-card {
+    background: linear-gradient(165deg, #161311, #0d0c0b);
+    border: 1px solid rgba(201, 164, 92, 0.25);
+    border-radius: 14px;
+    padding: 44px 38px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 40px; right: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .game-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201, 164, 92, 0.6);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.65), 0 0 40px rgba(200, 16, 46, 0.12);
+  }
+  .game-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 1.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+  }
+  .game-card .icon { font-size: 2.6rem; }
+  .game-btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold), #e8d9a8);
+    color: #1a0f00;
+    border: none;
+    font-weight: 700;
+    align-self: flex-start;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .game-btn:hover { transform: scale(1.04); box-shadow: 0 0 26px rgba(201, 164, 92, 0.35); }
+  .game-btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(201, 164, 92, 0.55);
+    color: var(--gold);
+  }
+  .game-btn.ghost:hover { box-shadow: 0 0 22px rgba(201, 164, 92, 0.25); }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .alpha-big {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--red);
+    text-shadow: 0 0 30px rgba(200, 16, 46, 0.45);
+  }
+  .alpha-word {
+    font-family: 'Cormorant', serif;
+    font-size: 1.15rem;
+    color: rgba(245, 239, 228, 0.85);
+    min-height: 1.6em;
+  }
+  .freeze-timer {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--red);
+    text-align: center;
+    text-shadow: 0 0 26px rgba(200, 16, 46, 0.5);
+    min-height: 1.3em;
+  }
+  .game-out {
+    font-family: 'Cormorant', serif;
+    font-size: 1.2rem;
+    color: rgba(245, 239, 228, 0.85);
+    min-height: 3.2em;
+    line-height: 1.5;
+    border-left: 2px solid rgba(200, 16, 46, 0.5);
+    padding-left: 14px;
+  }
+  .fants-out {
+    font-family: 'Cormorant', serif;
+    font-size: 1.25rem;
+    color: rgba(245, 239, 228, 0.9);
+    min-height: 4em;
+    line-height: 1.5;
+    border: 1px dashed rgba(201, 164, 92, 0.35);
+    padding: 16px;
+    border-radius: 4px;
+  }
+  /* Саундтрек: Дабро — «Юность» + «На часах ноль-ноль» */
+  .soundtrack-sec {
+    padding: 60px clamp(20px, 6vw, 80px) 50px;
+    max-width: 1240px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .vinyl-card {
+    background: linear-gradient(165deg, #161311 0%, #0d0c0b 100%);
+    border: 1px solid rgba(201, 164, 92, 0.25);
+    border-radius: 14px;
+    padding: 46px clamp(24px, 5vw, 60px) 50px;
+    box-shadow: 0 34px 70px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+  .vinyl-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 40px; right: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .vinyl-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 46px;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+  .vinyl-disc {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background:
+      radial-gradient(circle at center, #e8d9a8 0 4px, #1a1a1a 4px 6px, transparent 6px),
+      repeating-radial-gradient(circle at center, #151515 0 2px, #0a0a0a 2px 4px);
+    border: 2px solid rgba(201,164,92,0.55);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.8);
+    position: relative;
+  }
+  .vinyl-disc::after {
+    content: '';
+    position: absolute;
+    inset: 26px;
+    border-radius: 50%;
+    border: 1px dashed rgba(201,164,92,0.35);
+  }
+  .vinyl-disc.spinning { animation: spinVinyl 3s linear infinite; }
+  @keyframes spinVinyl { to { transform: rotate(360deg); } }
+  .vinyl-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+  .vinyl-artist {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  .vinyl-note {
+    font-style: italic;
+    color: var(--soft);
+    font-size: 1.08rem;
+    margin-bottom: 22px;
+    max-width: 420px;
+  }
+  .wish-input {
+    width: 100%;
+    font-family: 'Cormorant', serif;
+    font-size: 1.15rem;
+    padding: 12px 16px;
+    color: var(--cream);
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(201,164,92,0.35);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.25s ease;
+    resize: vertical;
+    min-height: 76px;
+  }
+  .wish-input:focus { border-color: var(--gold); }
+  .wish-input::placeholder { color: rgba(245,239,228,0.35); }
+  .wish-count {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+  .wish-count b { color: var(--gold); }
+  .bottle-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 420;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .bottle-overlay.open { opacity: 1; pointer-events: auto; }
+  .bottle-stage {
+    position: relative;
+    width: min(460px, 94vw);
+    height: min(580px, 84vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .bottle-halo {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(255,190,90,0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .bottle-wrap {
+    position: relative;
+    width: 160px;
+    height: 290px;
+    z-index: 2;
+  }
+  .bottle-cork {
+    position: absolute;
+    left: 50%;
+    top: -14px;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 58px;
+    background: linear-gradient(180deg, #d9a267, #a97343 60%, #8a5a33);
+    border-radius: 7px 7px 4px 4px;
+    z-index: 4;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.5);
+  }
+  .bottle-cork::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0 2px, transparent 2px 6px);
+  }
+  .bottle-cork.pop { animation: corkPop 0.85s cubic-bezier(0.17,0.84,0.44,1.25) forwards; }
+  @keyframes corkPop {
+    0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+    30% { transform: translateX(-50%) translateY(-20px) rotate(20deg); opacity: 1; }
+    100% { transform: translateX(30%) translateY(-140px) rotate(250deg); opacity: 0; }
+  }
+  .bottle-neck {
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    transform: translateX(-50%);
+    width: 54px;
+    height: 72px;
+    background: linear-gradient(180deg, #1e4d2c, #12361f);
+    clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  }
+  .bottle-glass {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 136px;
+    height: 190px;
+    background: radial-gradient(circle at 35% 25%, #2f6b41, #12361f 55%, #081d10);
+    border-radius: 26px 26px 48px 48px;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.6), 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .bottle-shine {
+    position: absolute;
+    left: 24px;
+    top: 46px;
+    width: 16px;
+    height: 110px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), transparent);
+    border-radius: 8px;
+    transform: rotate(6deg);
+  }
+  .note-scroll {
+    position: absolute;
+    left: 50%;
+    top: 64px;
+    transform: translateX(-50%);
+    width: min(340px, 82%);
+    background: linear-gradient(165deg, #faf4e6, #eadfc6);
+    border-radius: 12px;
+    padding: 30px 26px 34px;
+    transform-origin: bottom center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.55);
+    z-index: 5;
+    opacity: 0;
+    text-align: center;
+  }
+  .note-scroll.unroll { animation: noteUnroll 1.15s cubic-bezier(0.34,1.2,0.4,1) 0.45s both; }
+  @keyframes noteUnroll {
+    0% { transform: translateX(-50%) translateY(20px) scaleY(0.02); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: translateX(-50%) translateY(0) scaleY(1); opacity: 1; }
+  }
+  .note-scroll::before,
+  .note-scroll::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 102%;
+    height: 18px;
+    background: linear-gradient(180deg, #efe2c4, #d9c9a5);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  .note-scroll::before { top: -9px; }
+  .note-scroll::after { bottom: -9px; }
+  .note-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #a5834e;
+    margin-bottom: 12px;
+  }
+  .note-text {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: #3b2f1e;
+  }
+  .bottle-close {
+    margin-top: 26px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 12px 26px;
+    border-radius: 100px;
+    cursor: pointer;
+    background: rgba(201,164,92,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201,164,92,0.5);
+    transition: all 0.25s ease;
+    z-index: 6;
+  }
+  .bottle-close:hover {
+    background: rgba(201,164,92,0.22);
+    box-shadow: 0 0 24px rgba(201,164,92,0.3);
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.on { opacity: 1; transform: translateY(0); }
+  /* Часы студии (внизу страницы, в титрах) */
+  .vinyl-clock-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 6px;
+  }
+  .vinyl-clock {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2.6rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-shadow: 0 0 22px rgba(201, 164, 92, 0.5);
+    margin-bottom: 14px;
+  }
+  .midnight-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background:
+      radial-gradient(ellipse at 50% 38%, rgba(200, 16, 46, 0.28), transparent 58%),
+      radial-gradient(ellipse at 50% 80%, rgba(201, 164, 92, 0.12), transparent 55%),
+      rgba(2, 2, 2, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    padding: 26px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .midnight-overlay.open { opacity: 1; pointer-events: auto; }
+  .midnight-time {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 12vw, 6rem);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    animation: midnightGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes midnightGlow {
+    0%, 100% { text-shadow: 0 0 30px rgba(255, 217, 122, 0.5); }
+    50% { text-shadow: 0 0 60px rgba(255, 217, 122, 0.9); }
+  }
+  .midnight-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.4rem, 4.5vw, 2.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--cream);
+    text-shadow: 0 0 34px rgba(200, 16, 46, 0.65);
+  }
+  .midnight-sub {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: clamp(1.15rem, 3vw, 1.7rem);
+    color: rgba(245, 239, 228, 0.85);
+  }
+  .midnight-emoji {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    letter-spacing: 0.25em;
+    animation: bob 1.6s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .midnight-hint {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--soft);
+    min-height: 1.2em;
+  }
+  .midnight-close {
+    margin-top: 18px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 12px 26px;
+    border-radius: 100px;
+    cursor: pointer;
+    background: rgba(201, 164, 92, 0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201, 164, 92, 0.5);
+    transition: all 0.25s ease;
+  }
+  .midnight-close:hover {
+    background: rgba(201, 164, 92, 0.22);
+    box-shadow: 0 0 24px rgba(201, 164, 92, 0.3);
+  }
+  #fireworks {
+    position: fixed;
+    inset: 0;
+    z-index: 87;
+    pointer-events: none;
+  }
+  #proEnv .env-letter .t-title,
+  #proEnv .env-letter .t-sub {
+    font-family: 'Marggraff Kursiv Zarte', 'Oswald', sans-serif;
+    text-transform: none;
+  }
+  #proEnv .env-letter .t-line {
+    font-family: 'Marggraff Kursiv Zarte', 'Playfair Display', serif;
+  }
+  #proEnv .env-letter .t-row {
+    font-family: 'Marggraff Kursiv Zarte', 'Oswald', sans-serif;
+    text-transform: none;
+  }
+  #proEnv .env-letter .l-sig {
+    font-family: 'Marggraff Kursiv Zarte', 'Marck Script', cursive;
+  }
+  #proEnv .env-letter .bk-title,
+  #proEnv .env-letter .bk-sub {
+    font-family: 'Marggraff Kursiv Zarte', 'Oswald', sans-serif;
+    text-transform: none;
+  }
+  #proEnv .env-letter .bk-text {
+    font-family: 'Marggraff Kursiv Zarte', 'Playfair Display', serif;
+  }
+  #proEnv .env-letter .bk-wish {
+    font-family: 'Marggraff Kursiv Zarte', 'Oswald', sans-serif;
+    text-transform: none;
+  }
+  #proEnv .env-letter .bk-sig {
+    font-family: 'Marggraff Kursiv Zarte', 'Marck Script', cursive;
+  }
+  @media (max-width: 720px) {
+    .rolls { grid-template-columns: 1fr; }
+    section.block, .facts-sec { padding: 70px 18px; }
+    .ticket { flex-direction: column; }
+    .ticket-stub {
+      width: 100%;
+      border-left: none;
+      border-top: 2px dashed #b3a482;
+      flex-direction: row;
+      padding: 18px;
+    }
+    .ticket-stub .big { writing-mode: horizontal-tb; font-size: 1.5rem; }
+    .heart-wrap { height: 380px; }
+    .candle-dot { transform: translate(-50%, -50%) scale(0.8); }
+    .sound-btn { font-size: 0.6rem; padding: 6px 12px; right: 10px; }
+    .hr-progress { left: 8px; width: 90px; height: 15px; }
+    .tab-btn { font-size: 0.68rem; padding: 7px 12px; letter-spacing: 0.15em; }
+    .tabs { gap: 6px; padding: 10px 48px 10px 100px; }
+    .poster { padding-top: 52px; }
+    .ticket-sec { padding: 24px 14px 70px; }
+    .ticket-main { padding: 30px 24px; }
+    .roll { padding: 8px 16px; }
+    .roll h3 { font-size: 1.05rem; }
+    .roll .role { font-size: 0.5rem; letter-spacing: 0.2em; }
+    .roll-toggle { font-size: 0.58rem; padding: 5px 10px; }
+    #permanentCredits { padding: 70px 18px 100px; }
+    .the-end-static {
+      font-size: clamp(2rem, 9vw, 3rem);
+      white-space: normal;
+    }
+    .the-end-static .te-sub {
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      margin-top: 16px;
+    }
+    .pl-stage { min-height: 500px; }
+    .top-scene { height: 500px; transform: scale(0.92); }
+    .env-stage { width: min(560px, 94vw); }
+    .panel-hero { padding: 60px 18px 26px; }
+    .quiz-shell { padding: 40px 20px; margin-bottom: 80px; }
+    .game-card { padding: 34px 26px; }
+    .games-grid { gap: 22px; margin-bottom: 80px; }
+    .btn-row { flex-direction: column; }
+    .btn-row .game-btn { width: 100%; text-align: center; }
+    .bottle-stage { height: min(520px, 80vh); }
+    .note-scroll { top: 50px; width: min(300px, 88%); }
+    .note-text { font-size: 1.15rem; }
+    .soundtrack-sec { padding: 44px 18px 36px; }
+    .vinyl-card { padding: 36px 22px 40px; }
+    .vinyl-disc { width: 150px; height: 150px; }
+    .vinyl-row { gap: 28px; text-align: center; }
+    .mp { padding: 14px; gap: 12px; }
+    .mp-seek { min-width: 100px; }
+  }
+  @media (max-width: 480px) {
+    .env-postmark { display: none; }
+    .pl-start { padding: 14px 28px; font-size: 0.75rem; letter-spacing: 0.2em; }
+    .pl-hint { font-size: 0.88rem; }
+    .cork-top { transform: translate(-50%, -50%) scale(0.9); }
+    .pl-stage { min-height: 420px; }
+    .top-scene { height: 420px; transform: scale(0.85); }
+    .env-stage { width: min(440px, 94vw); }
+    #proEnv .env-letter .letter-back .bk-inner { padding: 10px 12px; gap: 5px; }
+    #proEnv .env-letter .bk-title { font-size: 1.05rem; letter-spacing: 0.18em; }
+    #proEnv .env-letter .bk-sub { font-size: 0.62rem; }
+    #proEnv .env-letter .bk-text { font-size: 0.8rem; line-height: 1.4; }
+    #proEnv .env-letter .bk-wish { font-size: 0.66rem; }
+    #proEnv .env-letter .bk-sig { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body class="locked">
+
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="beam"></div>
+<canvas id="fireworks"></canvas>
+
+<!-- ===== ПРОЛОГ ===== -->
+<section id="prologue">
+  <div class="pl-head">Семейная студия Надежда представляет</div>
+  <div class="pl-title">Послание</div>
+  <div class="pl-sub">Загляни в бутылку вина — там письмо из 1977 года</div>
+
+  <div class="pl-stage">
+    <div class="top-scene">
+
+      <div class="cork-top" id="corkTop">
+        <div class="glass-rim"></div>
+        <div class="cork-disk"></div>
+        <div class="wax-drop1"></div>
+        <div class="wax-drop2"></div>
+        <div class="wax-seal" id="waxSeal">
+          <span class="wax-text">открой<br>меня</span>
+        </div>
+      </div>
+
+      <div class="env-stage" id="proEnv">
+        <div class="env-back"></div>
+        <div class="env-flap"><div class="env-seal">★</div></div>
+        <div class="env-front">
+          <div class="env-fold l"></div>
+          <div class="env-fold r"></div>
+          <div class="env-postmark">Почта семьи<br>1977–2026</div>
+        </div>
+        <div class="env-text">
+          <div class="env-date">18.10.1977</div>
+        </div>
+
+        <div class="env-letter" id="envLetter">
+          <div class="letter-flip" id="letterFlip">
+
+            <div class="letter-face letter-front">
+              <svg class="crown" viewBox="0 0 120 60" aria-hidden="true">
+                <defs>
+                  <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#f8e3a0"/>
+                    <stop offset="0.5" stop-color="#d4a73c"/>
+                    <stop offset="1" stop-color="#9a7427"/>
+                  </linearGradient>
+                </defs>
+                <path d="M10 40 L22 12 L38 30 L60 8 L82 30 L98 12 L110 40 Z" fill="url(#goldGrad)" stroke="#8a6420" stroke-width="1.5"/>
+                <rect x="6" y="42" width="108" height="8" rx="3" fill="url(#goldGrad)" stroke="#8a6420" stroke-width="1"/>
+                <circle cx="60" cy="36" r="6" fill="url(#goldGrad)" stroke="#8a6420" stroke-width="1.2"/>
+                <circle cx="22" cy="34" r="4.5" fill="url(#goldGrad)" stroke="#8a6420" stroke-width="1"/>
+                <circle cx="98" cy="34" r="4.5" fill="url(#goldGrad)" stroke="#8a6420" stroke-width="1"/>
+              </svg>
+              <div class="t-title">Послание</div>
+              <div class="t-sub">семейная студия «Надежда»</div>
+              <div class="t-divider"></div>
+              <p class="t-line">Дорогая Надежда! Это письмо проделало долгий путь — из 1977 года прямо в твои руки.</p>
+              <p class="t-line">С днём рождения! Мы тебя очень любим.</p>
+              <div class="t-row"><span>Ряд — Семья</span><span>Место — В сердце</span></div>
+              <div class="t-row single"><span>Жанр — Любовь</span></div>
+              <div class="l-sig">Твоя семья</div>
+              <div class="flip-hint">⟳ поверни лист по часовой стрелке</div>
+            </div>
+
+            <div class="letter-face letter-back">
+              <div class="bk-inner" id="bkInner">
+                <div class="bk-title">Поздравление</div>
+                <div class="bk-sub">18 октября · 49 лет · наша гордость</div>
+                <div class="bk-divider"></div>
+                <p class="bk-text">Дорогая Надежда! Сегодня у нас особенный день — твой день рождения. Мы долго думали, как рассказать тебе, насколько ты важна для нас. Слова — не самый простой способ, но мы попробуем.</p>
+                <p class="bk-text">Спасибо, что ты есть. За твоё терпение, когда мы ошибались. За твою веру, когда мы сами в себя не верили. За руки, которые готовы помочь в любую минуту. За сердце, в котором хватает места для всех нас.</p>
+                <p class="bk-text">Мы желаем тебе крепкого здоровья — такого, чтобы хватало сил на все твои мечты. Пусть впереди будет много солнечных дней, интересных дорог и добрых людей. Пусть дома всегда пахнет уютом, а на душе — тихо и светло.</p>
+                <p class="bk-text">Знай: ты — наша гордость, наша опора и наш самый главный человек. Мы любим тебя без условий и безгранично.</p>
+                <div class="bk-wish">С днём рождения, мама. С днём рождения, наша Надежда.</div>
+                <div class="bk-sig">Твоя семья</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="env-collapse" id="envCollapse">✉ Свернуть</button>
+      </div>
+
+      <div class="pl-hint" id="plHint">Нажми на печать — и открой письмо</div>
+
+    </div>
+  </div>
+
+  <button class="pl-start" id="plStart">▶ Начать киносеанс</button>
+</section>
+
+<!-- ШАПКА -->
+<nav class="tabs" id="tabs">
+  <div class="hr-progress" id="hrProgress" title="Прогресс прокрутки страницы">
+    <div class="hr-fill" id="hrFill"></div>
+    <div class="hr-percent"><span id="hrPercent">0%</span></div>
+  </div>
+  <button class="tab-btn active" data-tab="poster">🎬 Открытка</button>
+  <button class="tab-btn" data-tab="quiz">❓ Тест</button>
+  <button class="tab-btn" data-tab="games">🎉 Конкурсы</button>
+  <button class="sound-btn" id="soundBtn">♪ Звук: вкл</button>
+</nav>
+
+<div id="loader">
+  <div class="countdown">
+    <div class="cross-h"></div>
+    <div class="cross-v"></div>
+    <svg viewBox="0 0 100 100">
+      <circle class="ring-bg" cx="50" cy="50" r="45" fill="none" stroke-width="2"/>
+      <circle class="ring" cx="50" cy="50" r="45" fill="none" stroke-width="2.5"/>
+    </svg>
+    <div class="num" id="countNum">3</div>
+  </div>
+</div>
+
+<div class="curtain left" id="curtainL"></div>
+<div class="curtain right" id="curtainR"></div>
+<div class="curtain-valance" id="valance"></div>
+
+<div class="wrap">
+
+  <section id="panel-poster" class="tab-panel active">
+
+    <header class="poster" id="sec-poster">
+      <div class="marquee">
+        <div>
+          <span>Режиссёр — <b>Судьба</b></span><span>В главной роли — <b>Мама</b></span><span>Жанр — <b>Любовь</b></span><span>Хронометраж — <b>49 лет счастья</b></span>
+          <span>Режиссёр — <b>Судьба</b></span><span>В главной роли — <b>Мама</b></span><span>Жанр — <b>Любовь</b></span><span>Хронометраж — <b>49 лет счастья</b></span>
+        </div>
+      </div>
+      <div class="studio">Семейная студия Надежда</div>
+      <div class="poster-frame">
+        <div class="photo-slot">
+          <img src="photo.jpg" alt="Надежда" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo-fallback',textContent:'Н'}))">
+          <div class="photo-caption">в главной роли</div>
+        </div>
+        <div class="title-block">
+          <div class="pre">премьера · 18 октября</div>
+          <h1>Надежда</h1>
+          <p class="role-line">Главная роль в жизни нашей семьи.<br>49 лет в прокате — и это только начало.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="ticket-sec">
+      <div class="ticket reveal">
+        <div class="ticket-main">
+          <div class="presents">Семейная студия Надежда · 18.10</div>
+          <h3>С днём рождения,<br>Надежда</h3>
+          <div class="ticket-rows">
+            <div><b>Ряд</b>Семья</div>
+            <div><b>Место</b>В сердце</div>
+            <div><b>Жанр</b>Мелодрама</div>
+            <div><b>Хронометраж</b>49 лет</div>
+            <div><b>Возраст</b>0+</div>
+            <div><b>Финал</b>Хэппи-энд</div>
+          </div>
+        </div>
+        <div class="ticket-stub">
+          <div class="big">Вход</div>
+          <div class="barcode"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- САУНДТРЕК: три трека Dabro (локальные MP3-файлы) -->
+    <section class="soundtrack-sec">
+      <div class="film-badge reveal">Саундтрек вечера</div>
+      <div class="section-title reveal">Dabro — три главных трека</div>
+      <div class="section-sub reveal">«Юность», «На часах ноль-ноль» и «Дальше — больше» — песни нашего праздника</div>
+      <div class="vinyl-card reveal">
+        <div class="vinyl-row">
+          <div class="vinyl-disc" id="vinylDisc"></div>
+          <div class="vinyl-info">
+            <div class="vinyl-title">Dabro</div>
+            <div class="vinyl-artist">Саундтрек вечера</div>
+            <p class="vinyl-note">Три любимых трека группы Дабро — под них зажигается вечер. Аудио играет из файлов, лежащих рядом со страницей.</p>
+          </div>
+        </div>
+
+        <!-- Трек 1: «Юность» -->
+        <div class="mp-wrap">
+          <div class="mp">
+            <div class="mp-disc" id="ytMiniDisc"></div>
+            <div class="mp-body">
+              <div class="mp-title">Юность</div>
+              <div class="mp-artist">Dabro · 2020 · аудио</div>
+              <div class="mp-controls">
+                <button class="mp-play" id="ytPlay" aria-label="Играть / поставить на паузу">▶</button>
+                <input type="range" class="mp-range mp-seek" id="ytSeek" min="0" max="1000" value="0" aria-label="Перемотка">
+                <span class="mp-time"><span id="ytCur">0:00</span> / <span id="ytDur">–:––</span></span>
+                <input type="range" class="mp-range mp-vol" id="ytVol" min="0" max="100" value="70" aria-label="Громкость">
+              </div>
+              <div class="mp-hint" id="ytHint">Нажми ▶ — трек заиграет</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Трек 2: «На часах ноль-ноль» -->
+        <div class="mp-wrap">
+          <div class="mp">
+            <div class="mp-disc" id="yt2MiniDisc"></div>
+            <div class="mp-body">
+              <div class="mp-title">На часах ноль-ноль</div>
+              <div class="mp-artist">Dabro · 2021 · аудио</div>
+              <div class="mp-controls">
+                <button class="mp-play" id="yt2Play" aria-label="Играть / поставить на паузу">▶</button>
+                <input type="range" class="mp-range mp-seek" id="yt2Seek" min="0" max="1000" value="0" aria-label="Перемотка">
+                <span class="mp-time"><span id="yt2Cur">0:00</span> / <span id="yt2Dur">–:––</span></span>
+                <input type="range" class="mp-range mp-vol" id="yt2Vol" min="0" max="100" value="70" aria-label="Громкость">
+              </div>
+              <div class="mp-hint" id="yt2Hint">Нажми ▶ — трек заиграет</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Трек 3: «Дальше — больше» -->
+        <div class="mp-wrap">
+          <div class="mp">
+            <div class="mp-disc" id="yt3MiniDisc"></div>
+            <div class="mp-body">
+              <div class="mp-title">Дальше — больше</div>
+              <div class="mp-artist">Dabro · 2021 · аудио</div>
+              <div class="mp-controls">
+                <button class="mp-play" id="yt3Play" aria-label="Играть / поставить на паузу">▶</button>
+                <input type="range" class="mp-range mp-seek" id="yt3Seek" min="0" max="1000" value="0" aria-label="Перемотка">
+                <span class="mp-time"><span id="yt3Cur">0:00</span> / <span id="yt3Dur">–:––</span></span>
+                <input type="range" class="mp-range mp-vol" id="yt3Vol" min="0" max="100" value="70" aria-label="Громкость">
+              </div>
+              <div class="mp-hint" id="yt3Hint">Нажми ▶ — трек заиграет</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="chapter reveal">
+        <span class="num">01</span>
+        <h2>Актёрский состав<small>поздравления в главных ролях</small></h2>
+      </div>
+      <div class="rolls">
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Твоя мама</div>
+            <h3>Людмила</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Дочка моя дорогая, с днём рождения! Для меня ты всегда остаёшься моей маленькой девочкой. Здоровья крепкого, душевного тепла и спокойствия. Пусть Бог бережёт тебя и всю нашу семью. Я тобой очень горжусь.</p>
+            <div class="sig">С любовью, мама</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Муж</div>
+            <h3>Вадим</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Родная моя, с днём рождения! Ты — самое ценное, что есть в моей жизни. Спасибо за твой смех, за нежность и за то, что рядом с тобой каждый день становится лучше. Люблю бесконечно и обещаю делать счастливой ещё очень-очень много лет.</p>
+            <div class="sig">Твой Вадим ♥</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Дочь</div>
+            <h3>Даша</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Мамуля, с днём рождения! Ты — моё вдохновение и главный пример. Спасибо, что всегда поддерживала, верила в меня и любила безусловно. Желаю здоровья, радости и чтобы каждая мечта обязательно сбылась. Люблю больше всего на свете!</p>
+            <div class="sig">Твоя дочь Даша</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Сын</div>
+            <h3>Максим</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Мам, с днём рождения! Ты самый сильный человек, которого я знаю. Спасибо за всё, за терпение и любовь. Желаю крепкого здоровья, удачи и чтобы жизнь баловала тебя так же, как ты балуешь всех нас. Горжусь тобой!</p>
+            <div class="sig">Твой сын Максим</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Сестра</div>
+            <h3>Ирина</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Надюша, с днём рождения! Пусть в жизни будет больше радости, меньше суеты, крепкое здоровье и исполнение всех заветных желаний. Ты — золото, и я счастлива, что ты у меня есть. Обнимаю крепко-крепко!</p>
+            <div class="sig">Твоя сестра Ирина</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Сестра</div>
+            <h3>Света</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Солнышко моё, с днём рождения! Желаю море позитива, хорошего настроения и чтобы неприятности обходили стороной. Ты у нас самая лучшая — помни об этом всегда. Люблю тебя!</p>
+            <div class="sig">Твоя сестра Света</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Сестра</div>
+            <h3>Оля</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Надя, с днём рождения! Желаю здоровья, счастья, семейного тепла и благополучия. Пусть каждый день приносит только приятные сюрпризы, а улыбка не сходит с лица. Ты — наша звезда!</p>
+            <div class="sig">Твоя сестра Оля</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Брат</div>
+            <h3>Андрей</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Сестрёнка, с днём рождения! Желаю крепкого здоровья, удачи во всём и чтобы жизнь радовала с каждым днём всё больше. Ты — лучшая сестра на свете, спасибо что ты есть. Обнимаю!</p>
+            <div class="sig">Твой брат Андрей</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Племянница</div>
+            <h3>Настя</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Надежда, с днём рождения! Желаю радости, смеха и чтобы все твои мечты обязательно сбывались. Ты самая добрая и весёлая тётя на свете — спасибо тебе за всё! Люблю тебя!</p>
+            <div class="sig">Твоя племянница Настя</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Племянник</div>
+            <h3>Женя</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Надежда, с днём рождения! Желаю крепкого здоровья, счастья и чтобы настроение было отличным каждый день. Спасибо за тёплые слова и улыбки. Обнимаю и поздравляю!</p>
+            <div class="sig">Твой племянник Женя</div>
+          </div>
+        </div>
+
+        <div class="roll reveal">
+          <div class="roll-header">
+            <div class="role">Племянник</div>
+            <h3>Лёша</h3>
+            <button class="roll-toggle" onclick="toggleRoll(this)">Развернуть</button>
+          </div>
+          <div class="roll-body">
+            <p>Надежда, с днём рождения! Желаю удачи, энергии и позитива. Пусть всё задуманное обязательно получится, а жизнь радует яркими моментами. Ты самая классная тётя!</p>
+            <div class="sig">Твой племянник Лёша</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="facts-sec" id="sec-facts">
+      <div style="text-align:center; margin-bottom:40px;">
+        <div class="film-badge reveal">Спецвыпуск · к 49-летию</div>
+        <div class="section-title reveal">49 фактов о Надежде</div>
+        <div class="section-sub reveal">Открой факт — и скажи: правда или ложь?</div>
+        <div class="facts-score" id="factsScore">Угадано: <b>0</b> из 49</div>
+      </div>
+      <div class="facts-grid" id="factsGrid"></div>
+    </section>
+
+    <section class="heart-sec" id="sec-heart">
+      <div class="film-badge reveal">У мамы большое сердце · зажги его</div>
+      <div class="section-title reveal">Сердце из 49 свечей</div>
+      <div class="section-sub reveal">сначала круг семьи — потом сердце, уже горящее</div>
+      <div class="heart-wrap" id="heartWrap"></div>
+      <div class="heart-counter">Зажжено: <b id="heartCount">0</b> / 49</div>
+      <div class="heart-msg" id="heartMsg">С днём рождения, Надежда! Пусть твоё сердце всегда будет таким же тёплым и светлым! 🕯️❤️</div>
+    </section>
+
+    <section class="block">
+      <div class="chapter reveal">
+        <span class="num">02</span>
+        <h2>Финальная сцена<small>письмо от всей семьи</small></h2>
+      </div>
+      <div class="letter-cine reveal">
+        <div class="from">Дорогая мама,</div>
+        <p>Сегодня твой день — и хочется сказать то, что иногда в спешке забывается сказать вслух. Спасибо тебе за твоё тепло, за объятия, в которых исчезают все тревоги, за мудрость, которой ты делишься щедро и без осуждения, за то, что всегда веришь в нас сильнее, чем мы сами.</p>
+        <p>Ты — наш дом. Где бы ни были, достаточно одного твоего голоса, чтобы стало спокойно и тепло. Ты научила нас любить не за что-то, а просто так — и в этом твоё главное кино, которое мы будем пересматривать всю жизнь.</p>
+        <p>Пусть впереди будет много-много солнечных дней, лёгких дорог, добрых людей и поводов для смеха. Пусть каждый новый сезон будет ярче предыдущего.</p>
+        <p>С днём рождения, мама. Мы тебя очень сильно любим.</p>
+      </div>
+    </section>
+
+    <section id="permanentCredits">
+      <div class="fc-head">Семейная студия Надежда · Финал</div>
+      <div class="fc-title">Титры</div>
+      <div class="fc-list">
+        <div class="fc-item"><div class="fc-role">В главной роли</div><div class="fc-name">Надежда</div></div>
+        <div class="fc-item"><div class="fc-role">Твоя мама</div><div class="fc-name">Людмила</div></div>
+        <div class="fc-item"><div class="fc-role">Муж</div><div class="fc-name">Вадим</div></div>
+        <div class="fc-item"><div class="fc-role">Дочь</div><div class="fc-name">Даша</div></div>
+        <div class="fc-item"><div class="fc-role">Сын</div><div class="fc-name">Максим</div></div>
+        <div class="fc-item"><div class="fc-role">Сёстры</div><div class="fc-name">Ирина · Света · Оля</div></div>
+        <div class="fc-item"><div class="fc-role">Брат</div><div class="fc-name">Андрей</div></div>
+        <div class="fc-item"><div class="fc-role">Племянница</div><div class="fc-name">Настя</div></div>
+        <div class="fc-item"><div class="fc-role">Племянники</div><div class="fc-name">Женя · Лёша</div></div>
+        <div class="fc-item"><div class="fc-role">Продюсер</div><div class="fc-name">Семейная Студия Надежда</div></div>
+      </div>
+      <div class="the-end-static">
+        <span class="te-word te-red">
+          <span class="te-letter">T</span><span class="te-letter">H</span><span class="te-letter">E</span>
+        </span>
+        <span class="te-word te-gold">
+          <span class="te-letter">E</span><span class="te-letter">N</span><span class="te-letter">D</span>
+        </span>
+        <span class="te-sub">Семейная студия Надежда · 49 лет в прокате</span>
+      </div>
+
+      <!-- Часы семейной студии -->
+      <div style="max-width:680px; margin:64px auto 0;">
+        <div class="vinyl-clock-label">Часы семейной студии · сейчас</div>
+        <div class="vinyl-clock" id="vinylClock">--:--:--</div>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="game-btn ghost" id="midnightTestBtn">⏰ Проверить полночь (00:00)</button>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <section id="panel-quiz" class="tab-panel">
+
+    <div class="panel-hero">
+      <div class="ph-badge reveal">Спецпоказ · интерактив</div>
+      <h2 class="reveal">Как хорошо ты знаешь Надежду?</h2>
+      <p class="ph-sub reveal">49 вопросов · отвечай честно, как на премьере</p>
+    </div>
+
+    <div class="quiz-shell reveal">
+      <div class="quiz-holder" id="quizHolder">
+        <div class="quiz-result" id="quizStart">
+          <div class="big">🎬</div>
+          <div style="font-size:1.4rem; margin:12px 0;">49 вопросов о нашей звезде!</div>
+          <button class="game-btn" id="quizStartBtn" style="margin:0 auto;">Начать тест</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="panel-games" class="tab-panel">
+
+    <div class="panel-hero">
+      <div class="ph-badge reveal">Антракт · весёлая программа</div>
+      <h2 class="reveal">Конкурсы для гостей</h2>
+      <p class="ph-sub reveal">развлекайтесь как в большом кино</p>
+    </div>
+
+    <div class="games-grid">
+
+      <div class="game-card reveal">
+        <div class="icon">🎬</div>
+        <h3>Киноконструктор</h3>
+        <p style="color:var(--soft);">Собери случайный фильм с Надеждой в главной роли.</p>
+        <button class="game-btn" id="constructBtn">Собрать фильм</button>
+        <div class="game-out" id="constructOut">Нажми «Собрать фильм» — и узнаешь новую премьору!</div>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">🎭</div>
+        <h3>Кино-фанты</h3>
+        <p style="color:var(--soft);">Вытяни фант — и выполни задание как настоящий актёр.</p>
+        <button class="game-btn" id="fantBtn">Тянуть фант</button>
+        <div class="fants-out" id="fantOut">Жми на кнопку — и получи задание!</div>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">💬</div>
+        <h3>Комплименты по алфавиту</h3>
+        <p style="color:var(--soft);">Каждый гость называет комплимент Надежде на следующую букву алфавита.</p>
+        <div class="alpha-big" id="alphaLetter">А</div>
+        <div class="alpha-word" id="alphaWord">ангел — начнём!</div>
+        <button class="game-btn" id="alphaBtn">Следующая буква</button>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">🐊</div>
+        <h3>Крокодил-кино</h3>
+        <p style="color:var(--soft);">Покажи фильм без слов — семья угадывает название.</p>
+        <button class="game-btn" id="crocBtn">Вытянуть фильм</button>
+        <div class="game-out" id="crocOut">Жми — получишь название фильма для пантомимы.</div>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">🧊</div>
+        <h3>Стоп-кадр</h3>
+        <p style="color:var(--soft);">Танцуем под музыку, а на команду замираем «как в немом кино».</p>
+        <button class="game-btn" id="freezeBtn">Запустить таймер</button>
+        <div class="freeze-timer" id="freezeTimer">10…</div>
+        <div class="fants-out" id="freezeOut">Нажми — через 10 секунд прозвучит команда «Замри!».</div>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">📞</div>
+        <h3>Сломанный телефон</h3>
+        <p style="color:var(--soft);">Шепни фразу соседу на ухо — посмотрим, что получится в финале.</p>
+        <button class="game-btn" id="phoneBtn">Получить фразу</button>
+        <div class="fants-out" id="phoneOut">Жми — получишь фразу для шёпота по кругу.</div>
+      </div>
+
+      <div class="game-card reveal">
+        <div class="icon">🍾</div>
+        <h3>Послание в бутылке</h3>
+        <p style="color:var(--soft);">Напиши пожелание — оно попадёт в бутылку, и Надежда прочитает его вслух.</p>
+        <textarea class="wish-input" id="wishInput" placeholder="Например: желаю море улыбок и крепкого здоровья…"></textarea>
+        <div class="btn-row">
+          <button class="game-btn" id="addWishBtn">Отправить в бутылку</button>
+          <button class="game-btn ghost" id="drawWishBtn">Достать пожелание</button>
+          <button class="game-btn ghost" id="clearWishBtn">Очистить бутылку</button>
+        </div>
+        <div class="wish-count">В бутылке: <b id="wishCount">0</b></div>
+        <div class="fants-out" id="wishHint">Напиши пожелание и отправь его в бутылку 💌</div>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- МОДАЛКА ФАКТА -->
+<div class="modal-backdrop" id="factModal">
+  <div class="modal">
+    <div class="m-num" id="mNum">Факт 01</div>
+    <div class="m-text" id="mText"></div>
+    <div class="m-q">Правда или Ложь?</div>
+    <div class="m-btns">
+      <button class="m-btn truth" id="mTruth">Правда</button>
+      <button class="m-btn lie" id="mLie">Ложь</button>
+    </div>
+    <div class="m-result" id="mResult"></div>
+    <div class="m-why" id="mWhy"></div>
+    <button class="m-next" id="mNext">Следующий факт →</button>
+  </div>
+</div>
+
+<!-- ===== АНИМАЦИЯ «БУТЫЛКА И ЗАПИСКА» ===== -->
+<div class="bottle-overlay" id="bottleOverlay">
+  <div class="bottle-stage">
+    <div class="bottle-halo"></div>
+    <div class="note-scroll" id="noteScroll">
+      <div class="note-label">Из бутылки · 1977</div>
+      <p class="note-text" id="noteText"></p>
+    </div>
+    <div class="bottle-wrap">
+      <div class="bottle-cork" id="bottleCork"></div>
+      <div class="bottle-neck"></div>
+      <div class="bottle-glass"></div>
+      <div class="bottle-shine"></div>
+    </div>
+    <button class="bottle-close" id="bottleClose">✕ Закрыть</button>
+  </div>
+</div>
+
+<!-- ===== ПОЛНОЧЬ: ПЕСНЯ В 00:00 ===== -->
+<div class="midnight-overlay" id="midnightOverlay">
+  <div class="midnight-time">00:00</div>
+  <div class="midnight-title">С днём рождения, Надежда!</div>
+  <div class="midnight-sub">Пробило полночь — для тебя звучит наша песня</div>
+  <div class="midnight-emoji">🎂🎈🎆</div>
+  <div class="midnight-hint" id="midnightHint"></div>
+  <button class="midnight-close" id="midnightClose">Закрыть</button>
+</div>
+
+<script>
+  function toggleRoll(btn) {
+    const roll = btn.closest('.roll');
+    roll.classList.toggle('open');
+    btn.textContent = roll.classList.contains('open') ? 'Свернуть' : 'Развернуть';
+    clickSnap && clickSnap();
+  }
+
+  let audioCtx = null;
+  let soundOn = true;
+  const soundBtn = document.getElementById('soundBtn');
+  soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? '♪ Звук: вкл' : '♪ Звук: выкл';
+  });
+  function ac() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function clickSnap() {
+    if (!soundOn) return;
+    try {
+      const ctx = ac(); const t = ctx.currentTime;
+      const buf = ctx.createBuffer(1, 1600, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const g = ctx.createGain(); g.gain.setValueAtTime(0.5, t);
+      src.connect(g).connect(ctx.destination); src.start(t);
+    } catch (e) {}
+  }
+  function applause() {
+    if (!soundOn) return;
+    try {
+      const ctx = ac(); const t0 = ctx.currentTime;
+      const dur = 3.4; const len = ctx.sampleRate * dur;
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) {
+        const t = i / ctx.sampleRate;
+        const env = Math.min(1, t / 0.15) * Math.max(0, 1 - Math.pow(t / dur, 2.2));
+        const claps = Math.sin(t * 97) > 0.2 ? 1 : 0.25;
+        d[i] = (Math.random() * 2 - 1) * env * claps * 0.5;
+      }
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const filt = ctx.createBiquadFilter(); filt.type = 'bandpass'; filt.frequency.value = 2100; filt.Q.value = 0.7;
+      const g = ctx.createGain(); g.gain.value = 0.35;
+      src.connect(filt).connect(g).connect(ctx.destination); src.start(t0);
+    } catch (e) {}
+  }
+  function chime() {
+    if (!soundOn) return;
+    try {
+      const ctx = ac(); const t0 = ctx.currentTime;
+      [523, 659, 784].forEach((f, i) => {
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t0 + i * 0.12);
+        g.gain.exponentialRampToValueAtTime(0.25, t0 + i * 0.12 + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.12 + 1.1);
+        o.connect(g).connect(ctx.destination);
+        o.start(t0 + i * 0.12); o.stop(t0 + i * 0.12 + 1.2);
+      });
+    } catch (e) {}
+  }
+
+  const envLetter = document.getElementById('envLetter');
+  const bkInner = document.getElementById('bkInner');
+
+  function fitBackText() {
+    if (!envLetter || !bkInner) return;
+    const lw = envLetter.offsetWidth;
+    const lh = envLetter.offsetHeight;
+    if (!lw || !lh) return;
+    const targetW = lh;
+    const targetH = lw;
+    bkInner.style.width = targetW + 'px';
+    bkInner.style.height = targetH + 'px';
+    bkInner.style.transform = 'translate(-50%, -50%) rotate(-90deg)';
+    const pad = 0.92;
+    const scaleX = (targetW * pad) / bkInner.scrollWidth;
+    const scaleY = (targetH * pad) / bkInner.scrollHeight;
+    const s = Math.min(scaleX, scaleY);
+    if (s < 1) {
+      bkInner.style.transform = 'translate(-50%, -50%) rotate(-90deg) scale(' + s + ')';
+    }
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => setTimeout(fitBackText, 100));
+  } else {
+    setTimeout(fitBackText, 200);
+  }
+  let fitTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitBackText, 150);
+  });
+
+  const prologue = document.getElementById('prologue');
+  const corkTop = document.getElementById('corkTop');
+  const waxSeal = document.getElementById('waxSeal');
+  const proEnv = document.getElementById('proEnv');
+  const letterFlip = document.getElementById('letterFlip');
+  const envCollapse = document.getElementById('envCollapse');
+  const plHint = document.getElementById('plHint');
+  let proOpened = false;
+  let letterFlipped = false;
+
+  function openPrologueBottle() {
+    if (proOpened) return;
+    proOpened = true;
+    corkTop.classList.add('popped');
+    clickSnap();
+    setTimeout(() => {
+      corkTop.classList.add('fadeout');
+      proEnv.classList.add('fadein');
+    }, 700);
+    setTimeout(() => {
+      proEnv.classList.add('open');
+      plHint.textContent = 'Конверт открывается…';
+      chime();
+    }, 1550);
+    setTimeout(() => {
+      proEnv.classList.add('letter-out');
+      plHint.textContent = 'Поверни лист по часовой стрелке — чтобы прочитать всё поздравление';
+      fitBackText();
+    }, 2600);
+  }
+
+  letterFlip.addEventListener('click', (e) => {
+    e.stopPropagation();
+    letterFlipped = !letterFlipped;
+    envLetter.classList.toggle('flipped', letterFlipped);
+    plHint.textContent = letterFlipped ? '' : 'Поверни лист по часовой стрелке — чтобы прочитать всё поздравление';
+    clickSnap();
+  });
+
+  envCollapse.addEventListener('click', (e) => {
+    e.stopPropagation();
+    letterFlipped = false;
+    envLetter.classList.remove('flipped');
+    proEnv.classList.remove('letter-out');
+    plHint.textContent = 'Письмо сворачивается обратно…';
+    clickSnap();
+    setTimeout(() => {
+      proEnv.classList.remove('open');
+      letterFlipped = false;
+      envLetter.classList.remove('flipped');
+      plHint.textContent = 'Кликни по конверту — и письмо откроется снова';
+    }, 900);
+  });
+
+  proEnv.addEventListener('click', () => {
+    if (!proEnv.classList.contains('open')) {
+      proEnv.classList.add('open');
+      plHint.textContent = 'Конверт открывается…';
+      chime();
+      setTimeout(() => {
+        proEnv.classList.add('letter-out');
+        plHint.textContent = 'Поверни лист по часовой стрелке — чтобы прочитать всё поздравление';
+        fitBackText();
+      }, 1000);
+    }
+  });
+
+  waxSeal.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openPrologueBottle();
+  });
+  corkTop.addEventListener('click', openPrologueBottle);
+
+  document.getElementById('plStart').addEventListener('click', () => {
+    if (prologue.classList.contains('gone')) return;
+    prologue.classList.add('gone');
+    clickSnap();
+    setTimeout(() => prologue.remove(), 800);
+    startCountdown();
+  });
+
+  const loader = document.getElementById('loader');
+  const numEl = document.getElementById('countNum');
+  const ring = document.querySelector('.ring');
+  let n = 3;
+  function startCountdown() {
+    setTimeout(tick, 600);
+  }
+  function tick() {
+    if (n === 0) {
+      clickSnap();
+      loader.classList.add('gone');
+      document.getElementById('curtainL').classList.add('open');
+      document.getElementById('curtainR').classList.add('open');
+      document.getElementById('valance').classList.add('open');
+      document.body.classList.remove('locked');
+      applause();
+      setTimeout(() => loader.remove(), 700);
+      setTimeout(() => { document.querySelectorAll('.curtain, .curtain-valance').forEach(el => el.remove()); }, 2400);
+      return;
+    }
+    numEl.textContent = n;
+    ring.style.transition = 'none';
+    ring.style.strokeDashoffset = '283';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      ring.style.transition = 'stroke-dashoffset 0.95s linear';
+      ring.style.strokeDashoffset = '0';
+    }));
+    setTimeout(() => { clickSnap(); n--; tick(); }, 1000);
+  }
+
+  const hrFill = document.getElementById('hrFill');
+  const hrPercent = document.getElementById('hrPercent');
+  const COLOR_STOPS = [
+    { pos: 0, r: 255, g: 77, b: 93 },
+    { pos: 0.55, r: 255, g: 210, b: 122 },
+    { pos: 1, r: 201, g: 164, b: 92 }
+  ];
+  function lerpColor(t) {
+    let a = COLOR_STOPS[0], b = COLOR_STOPS[COLOR_STOPS.length - 1];
+    for (let i = 0; i < COLOR_STOPS.length - 1; i++) {
+      if (t >= COLOR_STOPS[i].pos && t <= COLOR_STOPS[i + 1].pos) {
+        a = COLOR_STOPS[i];
+        b = COLOR_STOPS[i + 1];
+        break;
+      }
+    }
+    const span = b.pos - a.pos;
+    const f = span > 0 ? (t - a.pos) / span : 0;
+    return {
+      r: Math.round(a.r + (b.r - a.r) * f),
+      g: Math.round(a.g + (b.g - a.g) * f),
+      b: Math.round(a.b + (b.b - a.b) * f)
+    };
+  }
+  function setHorizontalProgress(v) {
+    const val = Math.max(0, Math.min(1, v));
+    hrFill.style.width = (val * 100).toFixed(2) + '%';
+    hrPercent.textContent = Math.round(val * 100) + '%';
+    const c = lerpColor(val);
+    hrPercent.style.color = 'rgb(' + c.r + ', ' + c.g + ', ' + c.b + ')';
+  }
+  setHorizontalProgress(0);
+  function updatePageProgress() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? window.scrollY / max : 0;
+    setHorizontalProgress(p);
+  }
+  window.addEventListener('scroll', updatePageProgress, { passive: true });
+  window.addEventListener('resize', updatePageProgress);
+
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+      const targetId = 'panel-' + btn.dataset.tab;
+      tabPanels.forEach(p => p.classList.toggle('active', p.id === targetId));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      clickSnap();
+    });
+  });
+
+  const facts = [
+    { t: 'Родилась в 1977 году — ровно в год премьеры фильма «Звезда родилась».', v: true, w: '' },
+    { t: 'Её суперспособность — находить вещи, которые потерял весь дом.', v: true, w: '' },
+    { t: 'Готовит так, что даже кот приходит на запах.', v: false, w: 'На самом деле кот — единственный, кто не приходит. Зато вся семья прибегает первой!' },
+    { t: 'Ни разу не пропустила ни одного дня рождения своих детей.', v: true, w: '' },
+    { t: 'Обнимает так, что все проблемы исчезают.', v: true, w: '' },
+    { t: 'Считает, что лучший подарок — внимание и забота.', v: true, w: '' },
+    { t: 'Может поддержать любой разговор — от погоды до космоса.', v: true, w: '' },
+    { t: 'Её фирменное блюдо уходит со стола первым.', v: true, w: '' },
+    { t: 'Танцует лучше всех на любом празднике.', v: true, w: '' },
+    { t: 'Звонит своей маме каждый день — и правильно делает.', v: true, w: '' },
+    { t: 'Её смех слышно даже за стеной.', v: false, w: 'На самом деле её смех слышно даже за двумя стенами — соседи подтвердят!' },
+    { t: 'Всегда знает, когда кому-то плохо, ещё до того, как скажут.', v: true, w: '' },
+    { t: 'Верный зритель всех семейных фильмов.', v: true, w: '' },
+    { t: 'Не любит быть в центре внимания, но всегда в нём оказывается.', v: true, w: '' },
+    { t: 'Умеет слушать так, что хочется говорить часами.', v: true, w: '' },
+    { t: 'Её пироги — отдельный вид искусства.', v: true, w: '' },
+    { t: 'Помнит дни рождения всех родственников без напоминаний.', v: true, w: '' },
+    { t: 'Однажды пришила пуговицу на куртку за 30 секунд.', v: false, w: 'На самом деле ей потребовалось 29 секунд — это рекорд семьи!' },
+    { t: 'Учит внуков тому, чему учила детей.', v: true, w: '' },
+    { t: 'Спорит с телевизором громче, чем с семьёй.', v: true, w: '' },
+    { t: 'Её улыбка — главный свет в доме.', v: true, w: '' },
+    { t: 'Верит в чудеса и заставляет верить других.', v: true, w: '' },
+    { t: 'Любит тихие вечера с семьёй больше любых вечеринок.', v: true, w: '' },
+    { t: 'Никогда не сдаётся — даже когда всё против.', v: true, w: '' },
+    { t: 'Умеет делать «вкусняшки» из ничего.', v: true, w: '' },
+    { t: 'Коллекционирует моменты, а не вещи.', v: true, w: '' },
+    { t: 'Лучший врач для детских «бо-бо» — один поцелуй.', v: true, w: '' },
+    { t: 'Знает секрет, как сделать дом тёплым.', v: true, w: '' },
+    { t: 'Сопереживает героям сериалов сильнее, чем себе.', v: true, w: '' },
+    { t: 'Её «просто позвонить» решает любые проблемы.', v: true, w: '' },
+    { t: 'Ненавидит, когда её благодарят, — но обожает, когда её любят.', v: true, w: '' },
+    { t: 'География её семьи — золото для карты.', v: false, w: 'На самом деле карта здесь ни при чём — сама семья и есть золото.' },
+    { t: 'Способна успокоить бурю одним словом.', v: true, w: '' },
+    { t: 'На даче у неё всё цветёт — даже то, что не сажали.', v: true, w: '' },
+    { t: 'Читает судьбу по глазам близких.', v: true, w: '' },
+    { t: 'Её руки помнят тепло каждого ребёнка.', v: true, w: '' },
+    { t: 'Празднует любой успех своих детей громче их самих.', v: true, w: '' },
+    { t: 'Секрет её молодости — любовь к жизни.', v: true, w: '' },
+    { t: 'Может собрать весь дом за 15 минут.', v: true, w: '' },
+    { t: 'Знает расписание всех поездов и автобусов страны.', v: false, w: 'Расписание всей семьи — да. А поездов — только тех, что везут домой.' },
+    { t: 'Её советы всегда оказываются верными.', v: true, w: '' },
+    { t: 'Фанат чая, тепла и добрых слов.', v: true, w: '' },
+    { t: 'Однажды организовала праздник без единой копейки — просто из любви.', v: true, w: '' },
+    { t: 'Её слово — закон, но закон добрый.', v: true, w: '' },
+    { t: 'Видит в каждом человеке хорошее.', v: true, w: '' },
+    { t: 'Умеет говорить «я тебя люблю» без слов.', v: true, w: '' },
+    { t: 'Самая горячая болельщица за свою семью.', v: true, w: '' },
+    { t: 'Её сердце — самый большой зал в мире, и там всем есть место.', v: true, w: '' },
+    { t: 'Любовь к ней мы продолжаем смотреть — и это самый кассовый фильм нашей жизни.', v: true, w: '' }
+  ];
+
+  const factsGrid = document.getElementById('factsGrid');
+  const factsScore = document.getElementById('factsScore');
+  let factCorrectCount = 0;
+  let currentFactIndex = 0;
+  let modalRevealTimer = null;
+
+  facts.forEach((f, i) => {
+    const c = document.createElement('button');
+    c.className = 'fact-card reveal';
+    c.textContent = String(i + 1).padStart(2, '0');
+    c.addEventListener('click', () => openFactModal(i));
+    factsGrid.appendChild(c);
+  });
+
+  const factModal = document.getElementById('factModal');
+  const mNum = document.getElementById('mNum');
+  const mText = document.getElementById('mText');
+  const mResult = document.getElementById('mResult');
+  const mWhy = document.getElementById('mWhy');
+  const mNext = document.getElementById('mNext');
+  let modalAnswered = false;
+
+  function openFactModal(i) {
+    currentFactIndex = i;
+    modalAnswered = false;
+    const modalEl = factModal.querySelector('.modal');
+    modalEl.classList.remove('ready');
+    mNum.textContent = 'Факт ' + String(i + 1).padStart(2, '0');
+    mText.textContent = facts[i].t;
+    mResult.textContent = '';
+    mResult.className = 'm-result';
+    mWhy.textContent = '';
+    mNext.style.display = 'none';
+    factModal.classList.add('open');
+    clearTimeout(modalRevealTimer);
+    modalRevealTimer = setTimeout(() => modalEl.classList.add('ready'), 1000);
+  }
+
+  function answerFact(guess) {
+    if (modalAnswered) return;
+    modalAnswered = true;
+    const f = facts[currentFactIndex];
+    const correct = guess === f.v;
+    const cards = factsGrid.children;
+    if (correct) {
+      factCorrectCount++;
+      mResult.textContent = 'Верно! ✅';
+      mResult.className = 'm-result ok';
+      cards[currentFactIndex].classList.add('correct');
+    } else {
+      mResult.textContent = 'А вот и нет! ❌';
+      mResult.className = 'm-result no';
+      cards[currentFactIndex].classList.add('wrong');
+    }
+    factsScore.innerHTML = 'Угадано: <b>' + factCorrectCount + '</b> из 49';
+    mWhy.textContent = f.w || (f.v ? 'Да, это чистая правда!' : 'Вот так — не всё то правда, что блестит.');
+    mNext.style.display = 'inline-block';
+    clickSnap();
+  }
+
+  document.getElementById('mTruth').addEventListener('click', () => answerFact(true));
+  document.getElementById('mLie').addEventListener('click', () => answerFact(false));
+
+  mNext.addEventListener('click', () => {
+    const next = (currentFactIndex + 1) % facts.length;
+    openFactModal(next);
+  });
+
+  factModal.addEventListener('click', (e) => {
+    if (e.target === factModal) factModal.classList.remove('open');
+  });
+
+  const quizData = [
+    { q: 'Как зовут мужа Надежды?', opts: ['Сергей', 'Вадим', 'Андрей', 'Олег'], c: 1 },
+    { q: 'Как зовут дочь Надежды?', opts: ['Мария', 'Анна', 'Даша', 'Катя'], c: 2 },
+    { q: 'Как зовут сына Надежды?', opts: ['Максим', 'Денис', 'Артём', 'Павел'], c: 0 },
+    { q: 'Сколько лет исполняется Надежде в этом году?', opts: ['39', '49', '59', '45'], c: 1 },
+    { q: 'В каком году родилась Надежда?', opts: ['1975', '1980', '1977', '1985'], c: 2 },
+    { q: 'Кто мама Надежды?', opts: ['Людмила', 'Тётя', 'Свекровь', 'У неё нет мамы'], c: 0 },
+    { q: 'Сколько сестёр у Надежды?', opts: ['Одна', 'Две', 'Три', 'Четыре'], c: 2 },
+    { q: 'Как зовут сестёр Надежды?', opts: ['Ирина и Света', 'Ирина, Света и Оля', 'Оля и Настя', 'Света и Катя'], c: 1 },
+    { q: 'Как зовут брата Надежды?', opts: ['Андрей', 'Игорь', 'Михаил', 'Виталий'], c: 0 },
+    { q: 'Как зовут племянницу Надежды?', opts: ['Алёна', 'Настя', 'Вика', 'Юля'], c: 1 },
+    { q: 'Как зовут племянников Надежды?', opts: ['Иван и Пётр', 'Женя и Лёша', 'Миша и Коля', 'Артём и Лев'], c: 1 },
+    { q: 'Что Надежда готовит лучше всего?', opts: ['Пироги', 'Борщ', 'Шашлык', 'Салат оливье'], c: 0 },
+    { q: 'Что Надежда коллекционирует?', opts: ['Марки', 'Моменты', 'Фарфор', 'Магнитики'], c: 1 },
+    { q: 'Как часто она звонит своей маме?', opts: ['Раз в месяц', 'Каждый день', 'По праздникам', 'Раз в год'], c: 1 },
+    { q: 'Какой подарок для неё лучший?', opts: ['Деньги', 'Внимание и забота', 'Путешествие', 'Смартфон'], c: 1 },
+    { q: 'Какая у неё суперспособность?', opts: ['Находить потерявшиеся вещи', 'Готовить без рецепта', 'Предсказывать погоду', 'Не спать по трое суток'], c: 0 },
+    { q: 'Что она любит больше вечеринок?', opts: ['Тихие вечера с семьёй', 'Концерты', 'Шопинг', 'Спорт'], c: 0 },
+    { q: 'Кто главный зритель семейных фильмов?', opts: ['Вадим', 'Даша', 'Надежда', 'Максим'], c: 2 },
+    { q: 'Чем Надежда занимается лучше всех на праздниках?', opts: ['Танцует', 'Поёт', 'Читает стихи', 'Фотографирует'], c: 0 },
+    { q: 'Что она помнит без напоминаний?', opts: ['Расписание поездов', 'Дни рождения всех родственников', 'Все рецепты', 'Погоду на неделю'], c: 1 },
+    { q: 'Что она умеет делать из ничего?', opts: ['«Вкусняшки»', 'Мебель', 'Одежду', 'Картины'], c: 0 },
+    { q: 'Что она считает главным в жизни?', opts: ['Карьеру', 'Семью', 'Дом', 'Деньги'], c: 1 },
+    { q: 'Что она делает, когда кому-то плохо?', opts: ['Обнимает', 'Ругает', 'Уходит', 'Молчит'], c: 0 },
+    { q: 'Какая у неё роль в семье?', opts: ['Хранительница очага', 'Добытчица', 'Строгий судья', 'Гостья'], c: 0 },
+    { q: 'Что она делает по выходным?', opts: ['Готовит для всей семьи', 'Работает', 'Спит до обеда', 'Смотрит футбол'], c: 0 },
+    { q: 'Что будет, если кто-то заболеет?', opts: ['Вылечит заботой', 'Вызовет врача и уйдёт', 'Скажет «само пройдёт»', 'Сбежит'], c: 0 },
+    { q: 'Что она любит смотреть по вечерам?', opts: ['Боевики', 'Сериалы и семейные фильмы', 'Хорроры', 'Новости'], c: 1 },
+    { q: 'Что растёт у неё на даче?', opts: ['Всё, включая то, что не сажали', 'Только сорняки', 'Ничего', 'Кактусы'], c: 0 },
+    { q: 'Какой у неё секрет молодости?', opts: ['Любовь к жизни', 'Косметолог', 'Спортзал', 'Диеты'], c: 0 },
+    { q: 'Кто для Надежды самый главный человек?', opts: ['Друзья', 'Семья', 'Начальник', 'Соседи'], c: 1 },
+    { q: 'Сколько свечей будет на торте?', opts: ['39', '49', '50', 'Цифры «49»'], c: 3 },
+    { q: 'Что она желает всем на праздниках?', opts: ['Здоровья и счастья', 'Машину', 'Квартиру', 'Отпуск'], c: 0 },
+    { q: 'Какое у неё главное хобби?', opts: ['Забота о семье', 'Вязание', 'Рыбалка', 'Коллекционирование часов'], c: 0 },
+    { q: 'Кто ругает её за излишнюю заботу?', opts: ['Никто — все обожают', 'Друзья', 'Соседи', 'Коты'], c: 0 },
+    { q: 'Что Надежда никогда не забывает?', opts: ['Поздравить своих', 'Покормить кота', 'Выключить свет', 'Запереть дверь'], c: 0 },
+    { q: 'Что для неё самое страшное?', opts: ['Одиночество близких', 'Пауки', 'Гром', 'Темнота'], c: 0 },
+    { q: 'Где Надежда чувствует себя лучше всего?', opts: ['Дома', 'В гостях', 'В самолёте', 'В офисе'], c: 0 },
+    { q: 'Что она обязательно принесёт на любой праздник?', opts: ['Угощение собственного приготовления', 'Цветы', 'Музыку', 'Салфетки'], c: 0 },
+    { q: 'Какое слово чаще всего звучит от неё?', opts: ['«Кушайте»', '«Опаздываем»', '«Давай быстрее»', '«Мне некогда»'], c: 0 },
+    { q: 'Что она думает о своих детях?', opts: ['Они лучшие', 'Они непослушные', 'Они должны больше работать', 'Они её не понимают'], c: 0 },
+    { q: 'Кто научил Дашу печь пироги?', opts: ['Надежда', 'Вадим', 'Интернет', 'Людмила'], c: 0 },
+    { q: 'Кто первым заступается за Максима?', opts: ['Надежда', 'Отец', 'Сестра', 'Дедушка'], c: 0 },
+    { q: 'Что Надежда делает после долгого дня?', opts: ['Звонит маме и рассказывает всё', 'Идёт гулять', 'Смотрит сериал', 'Ложится спать без ужина'], c: 0 },
+    { q: 'Почему Надежду любят все?', opts: ['За доброту и тепло', 'За деньги', 'За связи', 'За красивые наряды'], c: 0 },
+    { q: 'Что она скажет, если кто-то попросит помощи?', opts: ['«Приходи, поможем»', '«Это не моё дело»', '«Потом»', '«Обратись к другим»'], c: 0 },
+    { q: 'Что Надежда считает настоящим богатством?', opts: ['Семью', 'Дачу', 'Золото', 'Машину'], c: 0 },
+    { q: 'Какое место она любит больше всего на свете?', opts: ['Родной дом', 'Море', 'Горы', 'Большой город'], c: 0 },
+    { q: 'Что бы Надежда загадала на свой день рождения?', opts: ['Здоровье и счастье семьи', 'Новую машину', 'Путешествие', 'Ремонт'], c: 0 },
+    { q: 'Какая у неё главная роль в жизни?', opts: ['Мама', 'Директор', 'Актёрка', 'Врач'], c: 0 }
+  ];
+
+  const quizHolder = document.getElementById('quizHolder');
+  let quizIdx = 0;
+  let quizScore = 0;
+  document.getElementById('quizStartBtn').addEventListener('click', startQuiz);
+
+  function startQuiz() {
+    quizIdx = 0; quizScore = 0; renderQuiz();
+  }
+
+  function renderQuiz() {
+    if (quizIdx >= quizData.length) { renderQuizResult(); return; }
+    const item = quizData[quizIdx];
+    let html = '<div class="quiz-progress">Вопрос <b>' + (quizIdx + 1) + '</b> из ' + quizData.length + '</div>';
+    html += '<div class="quiz-q">' + item.q + '</div>';
+    html += '<div class="quiz-opts">';
+    item.opts.forEach((o, i) => {
+      html += '<button class="quiz-opt" data-i="' + i + '">' + o + '</button>';
+    });
+    html += '</div>';
+    html += '<button class="quiz-next" id="quizNext" style="display:none;">Дальше →</button>';
+    quizHolder.innerHTML = html;
+    document.querySelectorAll('.quiz-opt').forEach(btn => {
+      btn.addEventListener('click', () => selectQuiz(parseInt(btn.dataset.i, 10), item));
+    });
+    document.getElementById('quizNext').addEventListener('click', () => { quizIdx++; renderQuiz(); });
+  }
+
+  function selectQuiz(i, item) {
+    const btns = document.querySelectorAll('.quiz-opt');
+    btns.forEach((b, idx) => {
+      b.disabled = true;
+      if (idx === item.c) b.classList.add('reveal-correct');
+    });
+    if (i === item.c) {
+      quizScore++;
+      btns[i].classList.add('sel-correct');
+      quizPop(true);
+    } else {
+      btns[i].classList.add('sel-wrong');
+      btns[item.c].classList.add('sel-correct');
+      quizPop(false);
+    }
+    document.getElementById('quizNext').style.display = 'inline-block';
+  }
+
+  function quizPop(ok) {
+    const el = document.createElement('div');
+    el.style.cssText = 'font-family:Oswald,sans-serif;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;margin-top:16px;color:' + (ok ? '#7ee2a0' : '#ff8a9a') + ';';
+    el.textContent = ok ? 'Верно! ✅' : 'Не угадал! ❌';
+    document.querySelector('.quiz-opts').after(el);
+  }
+
+  function renderQuizResult() {
+    let grade = '';
+    if (quizScore === 49) grade = 'Идеально! Ты — главный киноэксперт нашей семьи! 🏆';
+    else if (quizScore >= 40) grade = 'Блестящий результат! Ты знаешь Надежду как свои пять пальцев! 🎬';
+    else if (quizScore >= 30) grade = 'Отлично! Ты настоящий семейный зритель! ⭐';
+    else if (quizScore >= 20) grade = 'Хорошо! Но есть ещё кадры для пересмотра. 😉';
+    else if (quizScore >= 10) grade = 'Неплохо для начала. Пора чаще бывать в гостях! 🍿';
+    else grade = 'Кажется, тебе нужен повторный сеанс семейного кино! 🎞️';
+    quizHolder.innerHTML =
+      '<div class="quiz-result">' +
+      '<div class="big">' + quizScore + ' / 49</div>' +
+      '<div class="grade">' + grade + '</div>' +
+      '<button class="game-btn" id="quizRetry" style="margin:28px auto 0;">Пройти ещё раз</button>' +
+      '</div>';
+    document.getElementById('quizRetry').addEventListener('click', startQuiz);
+    applause();
+  }
+
+  const heartWrap = document.getElementById('heartWrap');
+  const heartCountEl = document.getElementById('heartCount');
+  const heartSec = document.getElementById('sec-heart');
+  let litCount = 0;
+  let heartMode = 'circle';
+  let autoMorphTimer = null;
+  let celebrationDone = false;
+
+  const candlePalette = [
+    ['#e63946', '#b02a37'],
+    ['#f4a261', '#d97a2b'],
+    ['#f9c74f', '#dba72c'],
+    ['#57cc99', '#2d9d6e'],
+    ['#4d96ff', '#2b6bd6'],
+    ['#b5838d', '#8d5460'],
+    ['#cdb4db', '#9b76b8'],
+    ['#8ecae6', '#5a9fc8']
+  ];
+  const RED_CANDLE = ['#e63946', '#b02a37'];
+
+  function heartPoints(n) {
+    const SAMPLES = 4000;
+    const pts = [];
+    for (let i = 0; i <= SAMPLES; i++) {
+      const t = (i / SAMPLES) * Math.PI * 2;
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+      pts.push({ x, y });
+    }
+    const cum = [0];
+    for (let i = 1; i < pts.length; i++) {
+      const dx = pts[i].x - pts[i - 1].x;
+      const dy = pts[i].y - pts[i - 1].y;
+      cum.push(cum[i - 1] + Math.hypot(dx, dy));
+    }
+    const total = cum[cum.length - 1];
+    const result = [];
+    let idx = 0;
+    for (let k = 0; k < n; k++) {
+      const target = ((k + 0.5) / n) * total;
+      while (idx < cum.length - 2 && cum[idx + 1] < target) idx++;
+      const segLen = cum[idx + 1] - cum[idx];
+      const frac = segLen > 0 ? (target - cum[idx]) / segLen : 0;
+      result.push({
+        x: pts[idx].x + (pts[idx + 1].x - pts[idx].x) * frac,
+        y: pts[idx].y + (pts[idx + 1].y - pts[idx].y) * frac
+      });
+    }
+    return result;
+  }
+
+  function buildCandles() {
+    heartWrap.innerHTML = '';
+    litCount = 0;
+    heartCountEl.textContent = 0;
+    heartSec.classList.remove('done');
+    const W = heartWrap.clientWidth;
+    const H = heartWrap.clientHeight;
+    const cx = W / 2;
+    const cy = H * 0.44;
+    const Rc = Math.min(W, H) / 2.7;
+    const s = Math.min(W, H) / 34;
+    const heartCy = cy - Rc * 0.06;
+    const pts = heartPoints(49);
+    let tip = 0;
+    for (let i = 1; i < pts.length; i++) {
+      if (pts[i].y < pts[tip].y) tip = i;
+    }
+    for (let i = 0; i < 49; i++) {
+      const ang = (i / 49) * Math.PI * 2;
+      const cirX = cx + Math.cos(ang) * Rc;
+      const cirY = cy + Math.sin(ang) * Rc;
+      const heaX = cx + pts[i].x * s;
+      const heaY = heartCy - pts[i].y * s;
+      const b = document.createElement('button');
+      b.className = 'candle-dot';
+      b.dataset.cx = cirX;
+      b.dataset.cy = cirY;
+      b.dataset.hx = heaX;
+      b.dataset.hy = heaY;
+      b.style.left = cirX + 'px';
+      b.style.top = cirY + 'px';
+      b.innerHTML = '<div class="fl"></div><div class="wick"></div><div class="body"></div>';
+      const col = (i === tip) ? RED_CANDLE : candlePalette[i % candlePalette.length];
+      const bodyEl = b.querySelector('.body');
+      bodyEl.style.background = 'linear-gradient(90deg, ' + col[0] + ', ' + col[1] + ' 55%, ' + col[0] + ')';
+      b.style.setProperty('--neon', col[0]);
+      b.addEventListener('click', () => lightCandle(b));
+      heartWrap.appendChild(b);
+    }
+    heartMode = 'circle';
+    startAutoMorph();
+  }
+
+  function celebrateOnce() {
+    if (celebrationDone) return;
+    celebrationDone = true;
+    heartSec.classList.add('done');
+    chime();
+  }
+
+  function lightCandle(b) {
+    if (b.classList.contains('lit')) return;
+    b.classList.add('lit');
+    litCount++;
+    heartCountEl.textContent = litCount;
+    clickSnap();
+    if (litCount === 49) celebrateOnce();
+  }
+
+  function morphToHeart() {
+    if (heartMode === 'heart') return;
+    heartMode = 'heart';
+    heartWrap.querySelectorAll('.candle-dot').forEach(b => {
+      b.style.left = b.dataset.hx + 'px';
+      b.style.top = b.dataset.hy + 'px';
+      if (!b.classList.contains('lit')) {
+        b.classList.add('lit');
+        litCount++;
+      }
+    });
+    heartCountEl.textContent = litCount;
+    celebrateOnce();
+  }
+
+  function morphToCircle() {
+    if (heartMode === 'circle') return;
+    heartMode = 'circle';
+    heartWrap.querySelectorAll('.candle-dot').forEach(b => {
+      b.style.left = b.dataset.cx + 'px';
+      b.style.top = b.dataset.cy + 'px';
+      b.classList.remove('lit');
+    });
+    litCount = 0;
+    heartCountEl.textContent = 0;
+  }
+
+  function startAutoMorph() {
+    if (autoMorphTimer) clearInterval(autoMorphTimer);
+    autoMorphTimer = setInterval(() => {
+      if (heartMode === 'circle') morphToHeart();
+      else morphToCircle();
+    }, 4000);
+  }
+
+  window.addEventListener('load', () => setTimeout(buildCandles, 600));
+  window.addEventListener('resize', () => {
+    if (autoMorphTimer) clearInterval(autoMorphTimer);
+    if (document.getElementById('panel-poster').classList.contains('active')) buildCandles();
+  });
+
+  const obs = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  const fwCanvas = document.getElementById('fireworks');
+  const fwCtx = fwCanvas.getContext('2d');
+  let fwParticles = [];
+  let fwRunning = false;
+  function fwResize() { fwCanvas.width = innerWidth; fwCanvas.height = innerHeight; }
+  fwResize();
+  window.addEventListener('resize', fwResize);
+  const fwColors = ['#c8102e', '#c9a45c', '#f5efe4', '#ff6f8f', '#ffd27a'];
+  function fwLaunch(x, y, n) {
+    const count = n || 70;
+    const ang0 = Math.random() * Math.PI * 2;
+    const col = fwColors[Math.floor(Math.random() * fwColors.length)];
+    for (let i = 0; i < count; i++) {
+      const a = ang0 + (Math.PI * 2 * i) / count;
+      const sp = 1.5 + Math.random() * 4.5;
+      fwParticles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, decay: 0.011 + Math.random() * 0.011, col });
+    }
+  }
+  function fwLoop() {
+    if (!fwRunning) return;
+    fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+    fwParticles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.035; p.vx *= 0.985;
+      p.life -= p.decay;
+      if (p.life <= 0) return;
+      fwCtx.globalAlpha = Math.max(0, p.life);
+      fwCtx.fillStyle = p.col;
+      fwCtx.beginPath();
+      fwCtx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+      fwCtx.fill();
+    });
+    fwCtx.globalAlpha = 1;
+    fwParticles = fwParticles.filter(p => p.life > 0);
+    if (fwParticles.length === 0) { fwRunning = false; fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height); return; }
+    requestAnimationFrame(fwLoop);
+  }
+  function fwShow() {
+    if (fwRunning) return;
+    fwRunning = true; fwLoop();
+    const bursts = [[0.25, 0.35], [0.7, 0.3], [0.5, 0.45], [0.35, 0.28], [0.65, 0.42]];
+    bursts.forEach((b, i) => {
+      setTimeout(() => fwLaunch(fwCanvas.width * b[0], fwCanvas.height * b[1]), i * 420);
+    });
+  }
+  const fwTriggerObs = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (e.intersectionRatio > 0.05) { fwShow(); applause(); fwTriggerObs.unobserve(e.target); }
+    });
+  }, { threshold: [0.05] });
+  fwTriggerObs.observe(document.getElementById('permanentCredits'));
+
+  const cNames = ['Котлеты в полночь', 'Борщ на рассвете', '49 оттенков уюта', 'Тихий вечер', 'Генеральная уборка', 'Торт для королевы', 'Семейный совет'];
+  const cGenres = ['боевик', 'мелодрама', 'детектив', 'комедия', 'триллер', 'фэнтези', 'мюзикл'];
+  const cRoles = ['Надежда', 'Надежда и Вадим', 'Надежда и вся семья', 'Надежда и соседи', 'Надежда и её пироги'];
+  const constructOut = document.getElementById('constructOut');
+  document.getElementById('constructBtn').addEventListener('click', () => {
+    const name = cNames[Math.floor(Math.random() * cNames.length)];
+    const genre = cGenres[Math.floor(Math.random() * cGenres.length)];
+    const role = cRoles[Math.floor(Math.random() * cRoles.length)];
+    constructOut.innerHTML = '<b style="color:var(--red);">«' + name + '»</b> — ' + genre + ' · в главной роли: ' + role + '. Возрастное ограничение: 0+ · любовь навечно.';
+    clickSnap();
+  });
+
+  const fants = [
+    'Произнеси тост голосом ковбоя из вестерна.',
+    'Протанцуй 10 секунд так, будто ты в старом немом кино.',
+    'Скажи 5 комплиментов Надежде без буквы «М».',
+    'Сыграй сцену «встреча после долгой разлуки» с соседом по столу.',
+    'Покажи без слов, как ты готовишь фирменное блюдо.',
+    'Придумай название сиквела нашего семейного фильма.',
+    'Спой строчку из любой песни, заменив слова на «На-де-жда».',
+    'Скажи «С днём рождения» шепотом, но так, чтобы услышал весь зал.',
+    'Изобрази Надежду в главной роли её же любимого сюжета.',
+    'Дай шуточный совет молодому поколению голосом режиссёра.'
+  ];
+  const fantOut = document.getElementById('fantOut');
+  document.getElementById('fantBtn').addEventListener('click', () => {
+    fantOut.textContent = '🎭 ' + fants[Math.floor(Math.random() * fants.length)];
+    clickSnap();
+  });
+
+  const alphaCompliments = [
+    { l: 'А', w: 'ангел' }, { l: 'Б', w: 'бесценная' }, { l: 'В', w: 'великолепная' },
+    { l: 'Г', w: 'гармоничная' }, { l: 'Д', w: 'добрая' }, { l: 'Е', w: 'единственная' },
+    { l: 'Ё', w: 'ёлочка наша новогодняя' }, { l: 'Ж', w: 'жизнерадостная' },
+    { l: 'З', w: 'заботливая' }, { l: 'И', w: 'искренняя' }, { l: 'Й', w: 'йогурт — и ты как солнышко' },
+    { l: 'К', w: 'красивая' }, { l: 'Л', w: 'любимая' }, { l: 'М', w: 'мудрая' },
+    { l: 'Н', w: 'надёжная' }, { l: 'О', w: 'обворожительная' }, { l: 'П', w: 'прекрасная' },
+    { l: 'Р', w: 'родная' }, { l: 'С', w: 'солнечная' }, { l: 'Т', w: 'тёплая' },
+    { l: 'У', w: 'уютная' }, { l: 'Ф', w: 'фантастическая' }, { l: 'Х', w: 'хлебосольная' },
+    { l: 'Ц', w: 'целеустремлённая' }, { l: 'Ч', w: 'честная' }, { l: 'Ш', w: 'щедрая душой' },
+    { l: 'Щ', w: 'щепетильная к деталям' }, { l: 'Ъ', w: 'твёрдый характер' },
+    { l: 'Ы', w: 'ы-ы… короче, ты супер!' }, { l: 'Ь', w: 'мягкая душа' },
+    { l: 'Э', w: 'элегантная' }, { l: 'Ю', w: 'юморная' }, { l: 'Я', w: 'яркая' }
+  ];
+  let alphaIdx = 0;
+  const alphaLetter = document.getElementById('alphaLetter');
+  const alphaWord = document.getElementById('alphaWord');
+  document.getElementById('alphaBtn').addEventListener('click', () => {
+    alphaIdx = (alphaIdx + 1) % alphaCompliments.length;
+    const cur = alphaCompliments[alphaIdx];
+    alphaLetter.textContent = cur.l;
+    alphaWord.textContent = cur.w;
+    clickSnap();
+  });
+
+  const crocMovies = [
+    'Бриллиантовая рука', 'Иван Васильевич меняет профессию', 'Москва слезам не верит',
+    'Любовь и голуби', 'Джентльмены удачи', 'Служебный роман', 'Карнавальная ночь',
+    'Операция «Ы»', 'Пираты Карибского моря', 'Титаник', 'Гарри Поттер', 'Шрек',
+    'Кинг-Конг', 'Аватар', 'Человек-паук'
+  ];
+  const crocOut = document.getElementById('crocOut');
+  document.getElementById('crocBtn').addEventListener('click', () => {
+    const m = crocMovies[Math.floor(Math.random() * crocMovies.length)];
+    crocOut.innerHTML = '<b style="color:var(--red);">«' + m + '»</b> — показывай без слов!';
+    clickSnap();
+  });
+
+  /* ===== ПРОИГРЫВАТЕЛИ: три трека Dabro (локальные MP3-файлы) ===== */
+  function noteFreq(midi) {
+    return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  function fmtTime(s) {
+    s = Math.floor(s || 0);
+    const m = Math.floor(s / 60);
+    return m + ':' + String(s % 60).padStart(2, '0');
+  }
+  function fillRange(input, pct) {
+    input.style.setProperty('--fill', Math.max(0, Math.min(100, pct)).toFixed(2) + '%');
+  }
+
+  const localPlayers = [];
+
+  function makeLocalPlayer(cfg) {
+    const P = {
+      title: cfg.title,
+      file: cfg.file,
+      audio: new Audio(),
+      playBtn: cfg.playBtn,
+      seek: cfg.seek,
+      vol: cfg.vol,
+      cur: cfg.cur,
+      durEl: cfg.durEl,
+      hint: cfg.hint,
+      discs: cfg.discs || [],
+      dragging: false
+    };
+
+    P.audio.preload = 'metadata';
+    P.audio.src = P.file;
+    P.audio.volume = 0.7;
+
+    function setSpin(on) {
+      P.discs.forEach(d => d.classList.toggle('spinning', !!on));
+    }
+    function setPlayingUI(on) {
+      P.playBtn.textContent = on ? '❚❚' : '▶';
+      P.playBtn.classList.toggle('paused', on);
+    }
+
+    P.audio.addEventListener('loadedmetadata', () => {
+      if (!P.audio.duration || !isFinite(P.audio.duration)) return;
+      P.durEl.textContent = fmtTime(P.audio.duration);
+      P.hint.textContent = 'Готово · жми ▶';
+    });
+
+    P.audio.addEventListener('timeupdate', () => {
+      const cur = P.audio.currentTime || 0;
+      const dur = P.audio.duration || 0;
+      P.cur.textContent = fmtTime(cur);
+      if (!P.dragging && dur > 0) {
+        const val = Math.round((cur / dur) * 1000);
+        P.seek.value = val;
+        fillRange(P.seek, val / 10);
+      }
+    });
+
+    P.audio.addEventListener('play', () => {
+      localPlayers.forEach(q => {
+        if (q !== P && !q.audio.paused) q.audio.pause();
+      });
+      setPlayingUI(true);
+      setSpin(true);
+      P.hint.innerHTML = 'Играет: <b>' + P.title + '</b>';
+    });
+
+    P.audio.addEventListener('pause', () => {
+      setPlayingUI(false);
+      setSpin(false);
+      P.hint.textContent = 'Пауза · жми ▶, чтобы продолжить';
+    });
+
+    P.audio.addEventListener('ended', () => {
+      setPlayingUI(false);
+      setSpin(false);
+      P.seek.value = 0;
+      fillRange(P.seek, 0);
+      P.cur.textContent = '0:00';
+      P.hint.textContent = 'Трек закончился · жми ▶ ещё раз';
+    });
+
+    P.audio.addEventListener('error', () => {
+      P.hint.innerHTML = 'Не найден файл <b>' + P.file + '</b> · положи его рядом со страницей';
+    });
+
+    P.playBtn.addEventListener('click', () => {
+      clickSnap();
+      if (P.audio.paused) {
+        P.audio.play().catch(() => {
+          P.hint.innerHTML = 'Не удалось проиграть <b>' + P.file + '</b>';
+        });
+      } else {
+        P.audio.pause();
+      }
+    });
+
+    P.seek.addEventListener('input', () => {
+      P.dragging = true;
+      const val = parseFloat(P.seek.value) || 0;
+      fillRange(P.seek, val / 10);
+      const dur = P.audio.duration || 0;
+      if (dur > 0) {
+        const t = (val / 1000) * dur;
+        P.audio.currentTime = t;
+        P.cur.textContent = fmtTime(t);
+      }
+      clearTimeout(P._seekEnd);
+      P._seekEnd = setTimeout(() => { P.dragging = false; }, 200);
+    });
+
+    P.vol.addEventListener('input', () => {
+      const v = parseFloat(P.vol.value) || 0;
+      P.audio.volume = v / 100;
+      fillRange(P.vol, v);
+    });
+
+    fillRange(P.seek, 0);
+    fillRange(P.vol, P.vol.value);
+    P.durEl.textContent = '–:––';
+    P.cur.textContent = '0:00';
+    P.hint.textContent = 'Нажми ▶ — трек заиграет';
+
+    localPlayers.push(P);
+    return P;
+  }
+
+  /* Трек 1: «Юность» */
+  makeLocalPlayer({
+    title: 'Юность',
+    file: 'Dabro - Юность.mp3',
+    playBtn: document.getElementById('ytPlay'),
+    seek: document.getElementById('ytSeek'),
+    vol: document.getElementById('ytVol'),
+    cur: document.getElementById('ytCur'),
+    durEl: document.getElementById('ytDur'),
+    hint: document.getElementById('ytHint'),
+    discs: [document.getElementById('vinylDisc'), document.getElementById('ytMiniDisc')]
+  });
+
+  /* Трек 2: «На часах ноль-ноль» */
+  makeLocalPlayer({
+    title: 'На часах ноль-ноль',
+    file: 'Dabro - На часах ноль-ноль.mp3',
+    playBtn: document.getElementById('yt2Play'),
+    seek: document.getElementById('yt2Seek'),
+    vol: document.getElementById('yt2Vol'),
+    cur: document.getElementById('yt2Cur'),
+    durEl: document.getElementById('yt2Dur'),
+    hint: document.getElementById('yt2Hint'),
+    discs: [document.getElementById('yt2MiniDisc')]
+  });
+
+  /* Трек 3: «Дальше — больше» */
+  makeLocalPlayer({
+    title: 'Дальше — больше',
+    file: 'Dabro - Дальше - больше.mp3',
+    playBtn: document.getElementById('yt3Play'),
+    seek: document.getElementById('yt3Seek'),
+    vol: document.getElementById('yt3Vol'),
+    cur: document.getElementById('yt3Cur'),
+    durEl: document.getElementById('yt3Dur'),
+    hint: document.getElementById('yt3Hint'),
+    discs: [document.getElementById('yt3MiniDisc')]
+  });
+
+  /* ===== СТОП-КАДР: МУЗЫКА + ТАЙМЕР 10 СЕКУНД ===== */
+  const freezeBtn = document.getElementById('freezeBtn');
+  const freezeTimer = document.getElementById('freezeTimer');
+  const freezeOut = document.getElementById('freezeOut');
+  let freezeRunning = false;
+
+  let danceBuf = null;
+  let danceSrc = null;
+  let danceGain = null;
+
+  function renderDanceMusic() {
+    const ctx = ac();
+    const bpm = 120;
+    const beat = 60 / bpm;
+    const beats = 32;
+    const dur = beats * beat;
+    const sr = ctx.sampleRate;
+    const len = Math.ceil(dur * sr);
+    const buf = ctx.createBuffer(1, len, sr);
+    const d = buf.getChannelData(0);
+
+    const melody = [
+      [72,0,1],[76,1,1],[79,2,1],[76,3,1],
+      [77,4,1],[81,5,1],[84,6,1],[81,7,1],
+      [79,8,1],[83,9,1],[86,10,1],[83,11,1],
+      [84,12,1],[79,13,1],[76,14,1],[72,15,1],
+      [74,16,1],[77,17,1],[81,18,1],[77,19,1],
+      [76,20,1],[79,21,1],[83,22,1],[79,23,1],
+      [79,24,1],[83,25,1],[86,26,1],[83,27,1],
+      [84,28,2],[79,30,1],[76,31,1]
+    ];
+    const bass = [
+      [48,0,4],[41,4,4],[45,8,4],[43,12,4],
+      [48,16,4],[41,20,4],[45,24,4],[43,28,4]
+    ];
+
+    const addTone = (freq, t0, tDur, amp, bright) => {
+      const i0 = Math.floor(t0 * sr);
+      const n = Math.floor(tDur * sr);
+      for (let i = 0; i < n && i0 + i < len; i++) {
+        const t = i / sr;
+        const env = Math.min(1, t / 0.015) * Math.exp(-t * 3.2);
+        let s = Math.sin(2 * Math.PI * freq * t);
+        if (bright) s += 0.35 * Math.sin(4 * Math.PI * freq * t);
+        d[i0 + i] += s * env * amp;
+      }
+    };
+
+    for (let b = 0; b < beats; b++) {
+      for (let h = 0; h < 2; h++) {
+        const t0 = (b + h * 0.5) * beat;
+        const i0 = Math.floor(t0 * sr);
+        const n = Math.floor(0.06 * sr);
+        for (let i = 0; i < n && i0 + i < len; i++) {
+          d[i0 + i] += (Math.random() * 2 - 1) * (1 - i / n) * 0.07;
+        }
+      }
+    }
+
+    melody.forEach(([m, b, db]) => addTone(noteFreq(m), b * beat, db * beat, 0.16, true));
+    bass.forEach(([m, b, db]) => addTone(noteFreq(m), b * beat, db * beat, 0.2, false));
+
+    return buf;
+  }
+
+  function startDanceMusic() {
+    if (!soundOn) return;
+    try {
+      const ctx = ac();
+      stopDanceMusic();
+      if (!danceBuf) danceBuf = renderDanceMusic();
+      danceGain = ctx.createGain();
+      danceGain.gain.value = 0.45;
+      danceSrc = ctx.createBufferSource();
+      danceSrc.buffer = danceBuf;
+      danceSrc.loop = true;
+      danceSrc.connect(danceGain).connect(ctx.destination);
+      danceSrc.start();
+    } catch (e) {}
+  }
+
+  function stopDanceMusic() {
+    try {
+      if (danceSrc) {
+        try { danceSrc.stop(); } catch (e) {}
+        danceSrc.disconnect();
+        danceSrc = null;
+      }
+      if (danceGain) { danceGain.disconnect(); danceGain = null; }
+    } catch (e) {}
+  }
+
+  function freezeWhistle() {
+    if (!soundOn) return;
+    try {
+      const ctx = ac();
+      const t0 = ctx.currentTime;
+      [880, 660, 440].forEach((f, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'square';
+        o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t0 + i * 0.1);
+        g.gain.exponentialRampToValueAtTime(0.18, t0 + i * 0.1 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.1 + 0.5);
+        o.connect(g).connect(ctx.destination);
+        o.start(t0 + i * 0.1);
+        o.stop(t0 + i * 0.1 + 0.55);
+      });
+    } catch (e) {}
+  }
+
+  freezeBtn.addEventListener('click', () => {
+    if (freezeRunning) return;
+    freezeRunning = true;
+    let sec = 10;
+    freezeTimer.textContent = sec;
+    freezeOut.textContent = 'Приготовьтесь… танцуем под музыку!';
+    startDanceMusic();
+    const iv = setInterval(() => {
+      if (!soundOn) stopDanceMusic();
+      sec--;
+      if (sec > 0) {
+        freezeTimer.textContent = sec;
+      } else {
+        clearInterval(iv);
+        stopDanceMusic();
+        freezeTimer.textContent = '🧊 Замри!';
+        freezeOut.textContent = 'Никто не шевелится — вы все теперь кадр из немого кино!';
+        freezeWhistle();
+        freezeRunning = false;
+        setTimeout(() => {
+          freezeTimer.textContent = '10…';
+          freezeOut.textContent = 'Нажми — через 10 секунд прозвучит команда «Замри!».';
+        }, 3000);
+      }
+    }, 1000);
+  });
+
+  const phonePhrases = [
+    'Надежда однажды напекла 49 пирогов для всех соседей',
+    'Надежда умеет находить потерянные носки быстрее, чем детектив',
+    'Надежда любит чай, тепло и добрые слова',
+    'Надежда обнимает так, что все проблемы исчезают',
+    'Надежда — главный режиссёр нашего семейного кино',
+    'Надежда знает секрет, как сделать дом тёплым',
+    'Надежда может поддержать разговор от погоды до космоса',
+    'Надежда танцует лучше всех на любом празднике'
+  ];
+  const phoneOut = document.getElementById('phoneOut');
+  document.getElementById('phoneBtn').addEventListener('click', () => {
+    phoneOut.textContent = '📞 ' + phonePhrases[Math.floor(Math.random() * phonePhrases.length)];
+    clickSnap();
+  });
+
+  let wishes = [];
+  try {
+    wishes = JSON.parse(localStorage.getItem('nadezhda_wishes') || '[]');
+  } catch (e) { wishes = []; }
+
+  if (!wishes.length) {
+    wishes = [
+      'Желаю море улыбок и крепкого здоровья!',
+      'Пусть каждый день начинается с повода для смеха!',
+      'Любим тебя бесконечно! ❤️'
+    ];
+  }
+
+  const wishInput = document.getElementById('wishInput');
+  const wishCount = document.getElementById('wishCount');
+  const wishHint = document.getElementById('wishHint');
+  const bottleOverlay = document.getElementById('bottleOverlay');
+  const noteScroll = document.getElementById('noteScroll');
+  const bottleCork = document.getElementById('bottleCork');
+  const noteText = document.getElementById('noteText');
+
+  function saveWishes() {
+    try { localStorage.setItem('nadezhda_wishes', JSON.stringify(wishes)); } catch (e) {}
+    wishCount.textContent = wishes.length;
+  }
+
+  document.getElementById('addWishBtn').addEventListener('click', () => {
+    const txt = wishInput.value.trim();
+    if (!txt) {
+      wishHint.textContent = '✍️ Сначала напиши пожелание!';
+      return;
+    }
+    wishes.push(txt);
+    wishInput.value = '';
+    saveWishes();
+    wishHint.textContent = 'Пожелание отправлено в бутылку! 🍾';
+    clickSnap();
+  });
+
+  function openBottle(wish) {
+    noteText.textContent = wish;
+    bottleCork.classList.remove('pop');
+    noteScroll.classList.remove('unroll');
+    bottleOverlay.classList.add('open');
+    void bottleCork.offsetWidth;
+    bottleCork.classList.add('pop');
+    setTimeout(() => noteScroll.classList.add('unroll'), 500);
+    setTimeout(() => clickSnap(), 200);
+    setTimeout(() => clickSnap(), 900);
+  }
+
+  document.getElementById('drawWishBtn').addEventListener('click', () => {
+    if (!wishes.length) {
+      wishHint.textContent = '🍾 Бутылка пока пуста… Напиши пожелание и нажми «Отправить в бутылку»!';
+      return;
+    }
+    const idx = Math.floor(Math.random() * wishes.length);
+    const w = wishes[idx];
+    wishes.splice(idx, 1);
+    saveWishes();
+    wishHint.textContent = 'Записка вынута из бутылки! 🍾';
+    openBottle(w);
+  });
+
+  document.getElementById('clearWishBtn').addEventListener('click', () => {
+    wishes = [];
+    saveWishes();
+    wishHint.textContent = 'Бутылка очищена. Можно начинать заново ✨';
+    clickSnap();
+  });
+
+  function closeBottle() {
+    bottleOverlay.classList.remove('open');
+    bottleCork.classList.remove('pop');
+    noteScroll.classList.remove('unroll');
+  }
+
+  document.getElementById('bottleClose').addEventListener('click', closeBottle);
+  bottleOverlay.addEventListener('click', (e) => {
+    if (e.target === bottleOverlay) closeBottle();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeBottle();
+  });
+
+  /* ===== ПОЛНОЧНЫЙ БОЙ ЧАСОВ: ПЕСНЯ В 00:00 ===== */
+  const midnightOverlay = document.getElementById('midnightOverlay');
+  const midnightHint = document.getElementById('midnightHint');
+  const midnightClose = document.getElementById('midnightClose');
+  const vinylClockEl = document.getElementById('vinylClock');
+
+  function playBirthdaySong() {
+    if (!soundOn) return false;
+    try {
+      const ctx = ac();
+      if (ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+      const beat = 0.42;
+      const melody = [
+        [0, 67, 0.75], [0.75, 67, 0.25], [1, 69, 1], [2, 67, 1], [3, 72, 2],
+        [5, 67, 0.75], [5.75, 67, 0.25], [6, 69, 1], [7, 67, 1], [8, 74, 2],
+        [10, 67, 0.75], [10.75, 67, 0.25], [11, 79, 1], [12, 76, 1], [13, 72, 1], [14, 71, 1],
+        [16, 77, 0.75], [16.75, 77, 0.25], [17, 76, 1], [18, 72, 1], [19, 74, 1], [20, 72, 2]
+      ];
+      const bass = [
+        [0, 43, 4], [4, 48, 4], [8, 43, 4], [12, 47, 4], [16, 41, 4], [20, 48, 4]
+      ];
+      const addTone = (midi, start, dur, type, amp) => {
+        const t0 = ctx.currentTime + start * beat;
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type;
+        o.frequency.value = noteFreq(midi);
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(amp, t0 + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur * beat + 0.3);
+        o.connect(g).connect(ctx.destination);
+        o.start(t0); o.stop(t0 + dur * beat + 0.55);
+      };
+      melody.forEach(([s, m, d]) => addTone(m, s, d, 'triangle', 0.22));
+      bass.forEach(([s, m, d]) => addTone(m, s, d, 'sine', 0.11));
+      setTimeout(applause, 23000);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  let midnightTriggeredKey = null;
+  try { midnightTriggeredKey = localStorage.getItem('nadezhda_midnight'); } catch (e) {}
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  function triggerMidnight(force) {
+    const key = todayKey();
+    if (!force && midnightTriggeredKey === key) return;
+    midnightTriggeredKey = key;
+    try { localStorage.setItem('nadezhda_midnight', key); } catch (e) {}
+    fwShow();
+    const ok = playBirthdaySong();
+    midnightHint.textContent = ok ? '🎵 Звучит песня «С днём рождения»!' : '🔇 Нажми на страницу, чтобы включить звук';
+    midnightOverlay.classList.add('open');
+    setTimeout(() => midnightOverlay.classList.remove('open'), 30000);
+  }
+
+  function closeMidnight() {
+    midnightOverlay.classList.remove('open');
+  }
+  midnightClose.addEventListener('click', closeMidnight);
+  midnightOverlay.addEventListener('click', (e) => {
+    if (e.target === midnightOverlay) closeMidnight();
+  });
+
+  document.getElementById('midnightTestBtn').addEventListener('click', () => {
+    triggerMidnight(true);
+  });
+
+  function tickStudioClock() {
+    const now = new Date();
+    if (vinylClockEl) {
+      vinylClockEl.textContent = [now.getHours(), now.getMinutes(), now.getSeconds()]
+        .map(v => String(v).padStart(2, '0')).join(':');
+    }
+    if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() <= 59) {
+      triggerMidnight(false);
+    }
+  }
+  tickStudioClock();
+  setInterval(tickStudioClock, 1000);
+
+  saveWishes();
+</script>
+</body>
+</html>
